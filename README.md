@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Madrasa Editor for Chatbot Conversation Scripts
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
