@@ -1,0 +1,105 @@
+{
+  "id": "json3",
+  "title": "שיעור 3",
+  "description": "שיחה פשוטה בין בוט לתלמיד",
+  "photo": "path/to/theme/photo.jpg",
+  "level": 1,
+  "category": "Social",
+  "createdBy": "teacher",
+  "start": "1000",
+  "flow": {
+    "1000": [
+      "1001"
+    ],
+    "1001": [
+      "1002"
+    ],
+    "1002": [
+      "1003",
+      "1004"
+    ],
+    "1003": [
+      "1005"
+    ],
+    "1004": [
+      "1005"
+    ],
+    "1005": [
+      "1006"
+    ],
+    "1006":[]
+  },
+  "sentences": {
+    "1000": {
+      "id_": "1000",
+      "arabic": "مرحبا",
+      "arabicWithoutDiacritics": "مرحبا",
+      "hebrew": "שלום",
+      "transcription": "מַרְחַבַּא",
+      "voiceRecPath": "https://madrasa-voice.s3.eu-west-2.amazonaws.com/bot/6.wav",
+      "keywords": []
+    },
+    "1001": {
+      "id_": "1001",
+      "arabic": "اهلًا",
+      "arabicWithoutDiacritics": "اهلا",
+      "hebrew": "שלום",
+      "transcription": "אַהְלַן",
+      "voiceRecPath": "",
+      "keywords": [
+        "اهلا"
+      ]
+    },
+    "1002": {
+      "id_": "1002",
+      "arabic": "بتحكي عربي",
+      "arabicWithoutDiacritics": "بتحكي عربي",
+      "hebrew": "אתה מדבר ערבית?",
+      "transcription": "בְּתִחְכִּי עַרַבִּי?",
+      "voiceRecPath": "https://madrasa-voice.s3.eu-west-2.amazonaws.com/bot/7.wav",
+      "keywords": []
+    },
+    "1003": {
+      "id_": "1003",
+      "arabic": "اه، شوي",
+      "arabicWithoutDiacritics": "اه، شوي",
+      "hebrew": "כן, קצת",
+      "transcription": "אַה, שְוַי",
+      "voiceRecPath": "",
+      "keywords": [
+        "شوي"
+      ]
+    },
+    "1004": {
+      "id_": "1004",
+      "arabic": "اه، بحكي عربي",
+      "arabicWithoutDiacritics": "",
+      "hebrew": "כן, אני מדבר ערבית",
+      "transcription": "אה, בַּאחְכִּי עַרַבִּי",
+      "voiceRecPath": "",
+      "keywords": [
+        "بحكي عربي"
+      ]
+    },
+    "1005": {
+      "id_": "1005",
+      "arabic": "كلّ الاحترام، كيف؟",
+      "arabicWithoutDiacritics": "",
+      "hebrew": "כל הכבוד, איך?",
+      "transcription": "כֻּלְّ אִלְאִחְתִרַאם, כִּיף?",
+      "voiceRecPath": "https://madrasa-voice.s3.eu-west-2.amazonaws.com/bot/8.wav",
+      "keywords": []
+    },
+    "1006": {
+      "id_": "1006",
+      "arabic": "من مدرسة",
+      "arabicWithoutDiacritics": "",
+      "hebrew": "ממדרסה",
+      "transcription": "מִן מַדְרַסֵה",
+      "voiceRecPath": "",
+      "keywords": [
+        "مدرسة"
+      ]
+    }
+  }
+}

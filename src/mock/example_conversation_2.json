@@ -1,0 +1,117 @@
+{
+  "id": "json4",
+  "title": "שיעור 4",
+  "description": "שיחה פשוטה בין בוט לתלמיד",
+  "photo": "path/to/theme/photo.jpg",
+  "level": 1,
+  "category": "Social",
+  "createdBy": "teacher",
+  "start": "1000",
+  "flow": {
+    "1000": [
+      "1001",
+      "1002"
+    ],
+    "1001": [
+      "1004"
+    ],
+    "1002": [
+      "1003"
+    ],
+    "1003": [
+      "1000"
+    ],
+    "1004": [
+      "1005"
+    ],
+    "1005": [
+      "1006"
+    ],
+    "1006": [
+      "1007"
+    ],
+    "1007":[]
+  },
+  "sentences": {
+    "1000": {
+      "id_": "1000",
+      "arabic": "كيف بيقولو לחם بالعربي؟",
+      "arabicWithoutDiacritics": "كيف بيقولو לחם بالعربي",
+      "hebrew": "איך אומרים לחם בערבית?",
+      "transcription": "כִּיף בִּ(י)קוּלוּ לחם בִּ(א)לְעַרַבִּי?",
+      "voiceRecPath": "https://madrasa-voice.s3.eu-west-2.amazonaws.com/bot/9.wav",
+      "keywords": []
+    },
+    "1001": {
+      "id_": "1001",
+      "arabic": "خبز",
+      "arabicWithoutDiacritics": "خبز",
+      "hebrew": "לחם",
+      "transcription": "חֻ'בְּז",
+      "voiceRecPath": "",
+      "keywords": [
+        "خبز"
+      ]
+    },
+    "1002": {
+      "id_": "1002",
+      "arabic": "لحمة",
+      "arabicWithoutDiacritics": "لحمة",
+      "hebrew": "בשר",
+      "transcription": "לַחְמֵה",
+      "voiceRecPath": "",
+      "keywords": [
+        "لحمة"
+      ]
+    },
+    "1003": {
+      "id_": "1003",
+      "arabic": "مش مزبوط، لحمة معناها בשר",
+      "arabicWithoutDiacritics": "",
+      "hebrew": "לא נכון, לחמה זה בשר",
+      "transcription": "מִש מַזְבּוּט, לַחְמֵה מַעְנַאהַא בשר",
+      "voiceRecPath": "https://madrasa-voice.s3.eu-west-2.amazonaws.com/bot/10.wav",
+      "keywords": []
+    },
+    "1004": {
+      "id_": "1004",
+      "arabic": "كلّ الاحترام، وكيف بيقولو بالعربي מאפייה؟",
+      "arabicWithoutDiacritics": "كل الاحترام، وكيف بيقولو بالعربي מאפייה",
+      "hebrew": "כל הכבוד, איך אומרים בערבית מאפייה?",
+      "transcription": "כֻּלְّ אִלְאִחְתִרַאם, וּכִּיף בִּיקוּלוּ בִּאלעַרַבִּי מַאַפִייה?",
+      "voiceRecPath": "https://madrasa-voice.s3.eu-west-2.amazonaws.com/bot/11.wav",
+      "keywords": []
+    },
+    "1005": {
+      "id_": "1005",
+      "arabic": "مخبز",
+      "arabicWithoutDiacritics": "مخبز",
+      "hebrew": "מאפייה",
+      "transcription": "מַחְ'בַּז",
+      "voiceRecPath": "",
+      "keywords": [
+        "مخبز"
+      ]
+    },
+    "1006": {
+      "id_": "1006",
+      "arabic": "بيجنّن! انا بشتغل في المخبز، وين انا بشتغل؟",
+      "arabicWithoutDiacritics": "بيجنن! انا بشتغل في المخبز، وين انا بشتغل؟",
+      "hebrew": "מגניב! אני עובד במאפייה, איפה אני עובד?",
+      "transcription": "בִּיגַ'נֵّן! אַנַא בַּ(א)שְתְעֵ'ל פִי (א)לְמַחְ'בַּז, וֵין אַנַא בַּ(א)שְתְעֵ'ל?",
+      "voiceRecPath": "https://madrasa-voice.s3.eu-west-2.amazonaws.com/bot/12.wav",
+      "keywords": []
+    },
+    "1007": {
+      "id_": "1007",
+      "arabic": "انت بتشتغل في المخبز",
+      "arabicWithoutDiacritics": "انت بتشتغل في المخبز",
+      "hebrew": "אתה עובד במאפייה",
+      "transcription": "אִנְתֵ בְּתִשְתְעֵ'ל פִי (א)לְמַחְ'בַּז",
+      "voiceRecPath": "",
+      "keywords": [
+        "في المخبز"
+      ]
+    }
+  }
+}
