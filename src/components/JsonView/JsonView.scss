@@ -1,0 +1,27 @@
+//Todo Json-view name (default is root)
+.JsonView {
+  scroll-behavior: smooth;
+  width: 30%;
+  max-height: calc(100vh - 80px);
+  overflow-y:auto;
+  position:relative;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
