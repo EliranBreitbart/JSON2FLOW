@@ -1,0 +1,26 @@
+{
+  "id": "",
+  "title": "",
+  "description": "",
+  "photo": "",
+  "level": 0,
+  "category": "",
+  "createdBy": "",
+  "start": "1000",
+  "flow": {
+    "1000": [
+    ]
+  },
+  "sentences": {
+    "1000": {
+      "id_": "1000",
+      "arabic": "",
+      "arabicWithoutDiacritics": "",
+      "hebrew": "",
+      "transcription": "",
+      "voiceRecPath": "",
+      "keywords": [
+      ]
+    }
+  }
+}

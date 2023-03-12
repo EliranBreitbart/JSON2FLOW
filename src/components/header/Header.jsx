@@ -1,6 +1,9 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
+/* //TODO:
+*       Add load functionality
+* */
 const Header = () => {
   return (
     <Navbar bg="light" expand="lg">
