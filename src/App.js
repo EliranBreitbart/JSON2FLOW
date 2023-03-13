@@ -4,11 +4,12 @@ import EditorPage from "./pages/editor";
 import { Container } from "react-bootstrap";
 
 function App() {
-  return (
+    const [json, setJson] = React.useState(require("./pages/editor/template.json"))
+    return (
     <>
-      <Header />
+      <Header json={json} setJson = {setJson} />
       <Container>
-        <EditorPage />
+        <EditorPage json={json} setJson = {setJson} />
       </Container>
     </>
   );
