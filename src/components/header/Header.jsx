@@ -21,6 +21,16 @@ const Header = props => {
         {props.msg}
       </Tooltip>
   );
+  const exportData = () => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+        JSON.stringify(props.json)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "data.json";
+
+    link.click();
+  };
   return (
       <>
         <Navbar bg="light" expand="lg">
@@ -35,7 +45,7 @@ const Header = props => {
                 </OverlayTrigger>
                 <OverlayTrigger placement="bottom" delay={{ show: 250, hide: 400 }}
                                 overlay={renderTooltip({msg : "Export Json File"})}>
-                <Nav.Link href="#export">Export</Nav.Link>
+                <Nav.Link href="#export" onClick={exportData}>Export</Nav.Link>
                 </OverlayTrigger>
 
               </Nav>
