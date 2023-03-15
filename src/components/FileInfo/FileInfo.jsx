@@ -38,7 +38,7 @@ return (
                                 if(index<7) return <tr key={index}>
                                         <td key={index.toString() + "1"}>{`${field}:`}</td>
                                         <td key={index.toString() +"2"}>
-                                            <input key={index.toString() + "3"} onChange={ (e) => onFieldChange(field,e.target.value)}/>
+                                            <input key={index.toString() + "3"} value ={{...props.json}[field]} onChange={ (e) => onFieldChange(field,e.target.value)}/>
                                         </td>
                                     </tr>
                                 }
