@@ -6,30 +6,43 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { load as loadData } from "../FileInfo/fileInfoSlice";
+import { load as loadFlow } from "../diagram/flowSlice";
+import { load as loadSentences } from "../Node/nodeSlice";
 
-/* //TODO:
- *       Add load functionality
- * */
-const Header = (props) => {
+const Header = () => {
+  /* element functions */
   const hiddenFileInput = React.useRef(null);
   const handleClick = () => {
     hiddenFileInput.current.click();
-  };
-  const handleChange = (event) => {
-    const fileReader = new FileReader();
-    fileReader.readAsText(event.target.files[0], "UTF-8");
-    fileReader.onload = (event) => {
-      props.setJson(JSON.parse(event.target.result));
-    };
   };
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       {props.msg}
     </Tooltip>
   );
+
+  /* handle load */
+  const dispatch = useDispatch();
+  const handleChange = (event) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(event.target.files[0], "UTF-8");
+    fileReader.onload = (event) => {
+      dispatch(loadData(JSON.parse(event.target.result)));
+      dispatch(loadFlow(JSON.parse(event.target.result)));
+      dispatch(loadSentences(JSON.parse(event.target.result)));
+    };
+  };
+
+  /* get states and export */
+  const data = useSelector((state) => state.fileInfo.value);
+  const flow = useSelector((state) => state.flow.value);
+  const sentences = useSelector((state) => state.sentences.value);
+
   const exportData = () => {
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(props.json)
+      JSON.stringify({ ...data, ...flow, ...sentences })
     )}`;
     const link = document.createElement("a");
     link.href = jsonString;

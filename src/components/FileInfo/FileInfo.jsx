@@ -2,22 +2,21 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Table from "react-bootstrap/Table";
-import { useSelector, useDispatch } from 'react-redux'
-import { update } from './fileInfoSlice'
+import { useSelector, useDispatch } from "react-redux";
+import { update } from "./fileInfoSlice";
 
 /* //TODO:
  *       When file is loaded populate form fields
  * */
 
-const FileInfo = (props) => {
-    /* Show /Unshow the OffCanvas */
+const FileInfo = () => {
+  /* Show /Unshow the OffCanvas */
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
-    const json = useSelector(state => state.fileInfo.value)
-    const dispatch = useDispatch()
+  const data = useSelector((state) => state.fileInfo.value);
+  const dispatch = useDispatch();
 
   // function onFieldChange(field, value) {
   //   props.setJson((oldJson) => {
@@ -50,16 +49,16 @@ const FileInfo = (props) => {
             <Table borderless size="sm">
               <tbody>
                 {/* Dynamically creates the fields from the Json file and onChange functions */}
-                {Object.keys(props.json).map((field, index) => {
+                {Object.keys(data).map((field, index) => {
                   if (index < 7)
                     return (
                       <tr key={index}>
                         <td>{`${field}:`}</td>
                         <td>
                           <input
-                            value={json[field]}
+                            value={data[field]}
                             onChange={(e) =>
-                                dispatch(update(field, e.target.value))
+                              dispatch(update(field, e.target.value))
                             }
                           />
                         </td>

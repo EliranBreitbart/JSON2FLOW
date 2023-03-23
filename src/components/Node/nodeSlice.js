@@ -1,20 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const fileInfoSlice = createSlice({
-  name: "fileInfo",
+export const nodeSlice = createSlice({
+  name: "nodeSlice",
   initialState: {
     value: require("./template.json"),
   },
   reducers: {
     update: {
       reducer(state, action) {
-        state.value[action.payload.field] = action.payload.data;
+        //Todo update as needed
       },
       prepare(field, data) {
         return {
           payload: {
-            field,
-            data,
+            //Todo add payloads as needed
           },
         };
       },
@@ -23,14 +22,12 @@ export const fileInfoSlice = createSlice({
       state.value = require("./template.json");
     },
     load: (state, action) => {
-      Object.keys(state.value).map(
-        (field) => (state.value[field] = action.payload[field])
-      );
+      state.value["sentences"] = action.payload["sentences"]
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset, load } = fileInfoSlice.actions;
+export const { update, reset, load } = nodeSlice.actions;
 
-export default fileInfoSlice.reducer;
+export default nodeSlice.reducer;
