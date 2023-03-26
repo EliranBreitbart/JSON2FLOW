@@ -1,2 +1,3 @@
 TODO:
-* create Node object
+ create dynamic Node object using the conversation state.
+ validate data from conversation state.

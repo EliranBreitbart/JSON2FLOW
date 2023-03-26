@@ -28,13 +28,7 @@ const FileInfo = () => {
 
   return (
     <>
-      <Button
-        style={{
-          position: "absolute",
-          bottom: 20,
-          right: 20,
-          alignSelf: "flex-end",
-        }}
+      <Button className={"button"}
         variant="primary"
         onClick={handleShow}
       >

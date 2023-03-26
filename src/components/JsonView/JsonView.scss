@@ -6,6 +6,13 @@
   overflow-y: auto;
   position: relative;
 }
+
+.button {
+  position: absolute;
+  bottom: 2vh;
+  right: 2vh;
+  align-self: flex-end;
+}
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
