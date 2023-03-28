@@ -15,18 +15,19 @@ export const flowSlice = createSlice({
     update: {
       reducer(state, action) {
         const temp = { ...state.value };
-        const index = temp["flow"][action.payload.fromID].indexOf(
-          action.payload.toID
-        );
-        // perform add / remove if toID doesnt exist / exists respectively
-        if (action.payload.action === 1 && index === -1) {
-          temp["flow"][action.payload.fromID].push(action.payload.toID);
-        } else if (action.payload.action === 0) {
-          if (index > -1) {
-            temp["flow"][action.payload.fromID].splice(index, 1);
+        if(temp["flow"][action.payload.fromID] !== undefined) { // make the id exists.
+          const index = temp["flow"][action.payload.fromID].indexOf(action.payload.toID);
+
+          // perform add / remove if toID doesn't exist / exists respectively
+          if (action.payload.action === 1 && index === -1) {
+            temp["flow"][action.payload.fromID].push(action.payload.toID);
+          } else if (action.payload.action === 0) {
+            if (index > -1) {
+              temp["flow"][action.payload.fromID].splice(index, 1);
+            }
           }
+          state.value = temp;
         }
-        state.value = temp;
       },
       prepare(fromID, toID, action) {
         return {
