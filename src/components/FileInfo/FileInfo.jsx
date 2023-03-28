@@ -28,10 +28,7 @@ const FileInfo = () => {
 
   return (
     <>
-      <Button className={"button"}
-        variant="primary"
-        onClick={handleShow}
-      >
+      <Button className={"button"} variant="primary" onClick={handleShow}>
         File Info
       </Button>
       <Offcanvas show={show} onHide={handleClose}>

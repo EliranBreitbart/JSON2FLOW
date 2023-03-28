@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
+  Modal,
   Nav,
   Navbar,
   OverlayTrigger,
@@ -29,11 +30,22 @@ const Header = () => {
     const fileReader = new FileReader();
     fileReader.readAsText(event.target.files[0], "UTF-8");
     fileReader.onload = (event) => {
-      dispatch(loadData(JSON.parse(event.target.result)));
-      dispatch(loadFlow(JSON.parse(event.target.result)));
-      dispatch(loadSentences(JSON.parse(event.target.result)));
+      try {
+        const json = JSON.parse(event.target.result);
+        [loadData, loadFlow, loadSentences].map((func) => dispatch(func(json)));
+      } catch (e) {
+        setShow(true);
+      }
+      // dispatch(loadData(JSON.parse(event.target.result)));
+      // dispatch(loadFlow(JSON.parse(event.target.result)));
+      // dispatch(loadSentences(JSON.parse(event.target.result)));
     };
   };
+  /*HandleLoad modal error */
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   /* get states and export */
   const data = useSelector((state) => state.fileInfo.value);
@@ -50,6 +62,7 @@ const Header = () => {
 
     link.click();
   };
+
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -59,6 +72,7 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <OverlayTrigger
+                id="load-tooltip"
                 placement="bottom"
                 delay={{ show: 250, hide: 400 }}
                 overlay={renderTooltip({ msg: "Load Json File" })}
@@ -80,6 +94,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      {/* hidden input box for files */}
       <input
         type="file"
         id="file"
@@ -87,6 +102,12 @@ const Header = () => {
         onChange={handleChange}
         style={{ display: "none" }}
       />
+      {/* Error message popup when wrong json file is uploaded */}
+      <Modal show={show} onHide={handleClose} size="sm">
+        <Modal.Body>
+          <div align="center">Loaded file is not a valid JSON</div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

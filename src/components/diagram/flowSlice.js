@@ -10,22 +10,25 @@ export const flowSlice = createSlice({
      * Updates the flow Table
      * @param {string} fromID - The source node ID
      * @param {string} toID - The target node ID
-     * @param {string} action - The action. "add", "remove" will add or remove connections respectively
+     * @param {int} action - The action. 1 will add, 0 will remove connection.
      */
     update: {
       reducer(state, action) {
-        const temp = {...state.value}
-        if(action.payload.action == "add"){
-        temp["flow"][action.payload.fromID].push(action.payload.toID)
-        } else if(action.payload.action == "remove"){
-          const index = temp["flow"][action.payload.fromID].indexOf(action.payload.toID)
-          if (index > -1){
-            temp["flow"][action.payload.fromID].splice(index,1)
+        const temp = { ...state.value };
+        const index = temp["flow"][action.payload.fromID].indexOf(
+          action.payload.toID
+        );
+        // perform add / remove if toID doesnt exist / exists respectively
+        if (action.payload.action === 1 && index === -1) {
+          temp["flow"][action.payload.fromID].push(action.payload.toID);
+        } else if (action.payload.action === 0) {
+          if (index > -1) {
+            temp["flow"][action.payload.fromID].splice(index, 1);
           }
         }
-        state.value = temp
+        state.value = temp;
       },
-      prepare(fromID, toID,action) {
+      prepare(fromID, toID, action) {
         return {
           payload: {
             fromID,
@@ -43,7 +46,8 @@ export const flowSlice = createSlice({
     },
     /**
      * Loads flow from JSON file
-     * @param {JSON} data - JSON file
+     * @param {any} state - The flow state
+     * @param {any} action - The new flow
      */
     load: (state, action) => {
       state.value["flow"] = action.payload["flow"];

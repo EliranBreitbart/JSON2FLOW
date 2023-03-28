@@ -2,3 +2,13 @@
   width: 70%;
   height: calc(100vh - 80px);
 }
+.react-flow__node {
+  border-width: 2px;
+  font-size: 12px;
+}
+.bot {
+  border-color: darkred;
+}
+.user {
+  border-color: black;
+}
