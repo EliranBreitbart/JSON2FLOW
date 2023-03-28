@@ -1,5 +1,13 @@
 import React, {useCallback, useEffect, useState} from "react";
-import ReactFlow, {Background, Controls, ReactFlowProvider, useKeyPress, useReactFlow} from "reactflow";
+import ReactFlow, {
+  Background,
+  ControlButton,
+  Controls,
+  EdgeText,
+  ReactFlowProvider,
+  useKeyPress,
+  useReactFlow
+} from "reactflow";
 import { useSelector, useDispatch } from "react-redux";
 import { update as updateFlow, reset as resetFlow } from "../diagram/flowSlice";
 import { update as updateNode, reset as resetNode } from "../Node/nodeSlice";
@@ -10,6 +18,7 @@ import {click} from "@testing-library/user-event/dist/click";
  * TODO:
  *  Update create nodes
  *  Validate Flow (circles, speakers)
+ *  Update useEffect for deletion to work for Nodes
  *  Node addition
  *  Node removal
  *  */
@@ -50,11 +59,12 @@ const Diagram = () => {
     }
   };
   const [clickedElement, setClickedElement] = useState({id: "0-0", source: "0", target:"0"})
+  const [iconDelete, setIconDelete] = useState(true)
   const deletePressed = useKeyPress('Delete');
   useEffect(() => {
     dispatch(updateFlow(clickedElement.source, clickedElement.target, 0));
     setClickedElement({id: "0-0", source: "0", target:"0"})
-  }, [deletePressed]);
+  }, [deletePressed,iconDelete]);
 
 
   return (
@@ -62,7 +72,11 @@ const Diagram = () => {
       <ReactFlowProvider>
         <ReactFlow nodes={nodes} edges={edges} onConnect={onConnect} onEdgeClick ={(event,edge) => setClickedElement(edge)} >
           <Background />
-          <Controls />
+          <Controls>
+            <ControlButton onClick={() => setIconDelete(!iconDelete) } title="To delete selected, or click 'delete'">
+              <div className={"delete"}>🗑️</div>
+            </ControlButton>
+          </Controls>
         </ReactFlow>
       </ReactFlowProvider>
       {/*<button onClick={() => console.log(sentences)}>test</button>*/}
