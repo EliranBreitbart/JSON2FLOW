@@ -10,24 +10,25 @@ export const flowSlice = createSlice({
      * Updates the flow Table
      * @param {string} fromID - The source node ID
      * @param {string} toID - The target node ID
-     * @param {int} action - The action. 1 will add, 0 will remove connection.
+     * @param {int} action - The action. (1-add, 0-remove) connection.
      */
     update: {
       reducer(state, action) {
-        const temp = { ...state.value };
-        if(temp["flow"][action.payload.fromID] !== undefined) { // make the id exists.
-          const index = temp["flow"][action.payload.fromID].indexOf(action.payload.toID);
+        const { flow } = state.value;
 
-          // perform add / remove if toID doesn't exist / exists respectively
-          if (action.payload.action === 1 && index === -1) {
-            temp["flow"][action.payload.fromID].push(action.payload.toID);
-          } else if (action.payload.action === 0) {
-            if (index > -1) {
-              temp["flow"][action.payload.fromID].splice(index, 1);
-            }
-          }
-          state.value = temp;
+        if(flow[action.payload.fromID] === undefined) {
+          return;
         }
+
+        const toIdIndex = flow[action.payload.fromID].indexOf(action.payload.toID);
+
+        if (action.payload.action === 1 && toIdIndex === -1) {
+          flow[action.payload.fromID].push(action.payload.toID);
+        } else if (action.payload.action === 0 && toIdIndex > -1) {
+            flow[action.payload.fromID].splice(toIdIndex, 1);
+        }
+        state.value["flow"] = flow;
+
       },
       prepare(fromID, toID, action) {
         return {

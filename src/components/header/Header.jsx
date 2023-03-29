@@ -100,6 +100,9 @@ const Header = () => {
         id="file"
         ref={hiddenFileInput}
         onChange={handleChange}
+        onClick={(event)=> {
+          event.target.value = null
+        }}
         style={{ display: "none" }}
       />
       {/* Error message popup when wrong json file is uploaded */}
