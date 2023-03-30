@@ -3,6 +3,7 @@ export const nodeSlice = createSlice({
   name: "nodeSlice",
   initialState: {
     value: require("./template.json"),
+    nextId: 1001,
   },
   reducers: {
     /**
@@ -11,12 +12,14 @@ export const nodeSlice = createSlice({
      */
     update: {
       reducer(state, action) {
-        //Todo update as needed
+        state.value["sentences"][action.payload.id][action.payload.field] = action.payload.data;
       },
-      prepare(field, data) {
+      prepare(id, field, data) {
         return {
           payload: {
-            //Todo add payloads as needed
+            id,
+            field,
+            data,
           },
         };
       },
@@ -24,8 +27,25 @@ export const nodeSlice = createSlice({
     /**
      * Resets the nodes to default state
      */
+    addNode: (state) => {
+      const { sentences } = state.value
+      const newNode = {
+        id_: state.nextId.toString(),
+        arabic: "",
+        arabicWithoutDiacritics: "",
+        hebrew: "טקסט",
+        transcription: "",
+        voiceRecPath: "",
+        keywords: [
+        ],
+        speaker: "None"
+      }
+      state.value["sentences"] = {...sentences, [state.nextId] : newNode}
+      state.nextId = state.nextId + 1
+    },
     reset: (state) => {
       state.value = require("./template.json");
+      state.nextId = 1001
     },
     /**
      * loads the nodes from JSON file
@@ -33,11 +53,12 @@ export const nodeSlice = createSlice({
      */
     load: (state, action) => {
       state.value["sentences"] = action.payload["sentences"];
+      state.nextId = Math.max(...Object.keys(state.value["sentences"]).map(key => parseInt(key))) + 1
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset, load } = nodeSlice.actions;
+export const { update, reset, load, addNode } = nodeSlice.actions;
 
 export default nodeSlice.reducer;

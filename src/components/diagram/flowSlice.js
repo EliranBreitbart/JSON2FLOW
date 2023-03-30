@@ -17,6 +17,7 @@ export const flowSlice = createSlice({
         const { flow } = state.value;
 
         if(flow[action.payload.fromID] === undefined) {
+          state.value["flow"] = {...flow, [action.payload.fromID] : []};
           return;
         }
 
