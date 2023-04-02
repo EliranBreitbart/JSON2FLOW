@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+//TODO: create remove Node
 export const nodeSlice = createSlice({
   name: "nodeSlice",
   initialState: {
     value: require("./template.json"),
     nextId: 1001,
+    locations: { 1000: { x: 0, y: 0 } },
   },
   reducers: {
     /**
@@ -12,7 +14,8 @@ export const nodeSlice = createSlice({
      */
     update: {
       reducer(state, action) {
-        state.value["sentences"][action.payload.id][action.payload.field] = action.payload.data;
+        state.value["sentences"][action.payload.id][action.payload.field] =
+          action.payload.data;
       },
       prepare(id, field, data) {
         return {
@@ -28,7 +31,7 @@ export const nodeSlice = createSlice({
      * Resets the nodes to default state
      */
     addNode: (state) => {
-      const { sentences } = state.value
+      const { sentences } = state.value;
       const newNode = {
         id_: state.nextId.toString(),
         arabic: "",
@@ -36,29 +39,57 @@ export const nodeSlice = createSlice({
         hebrew: "טקסט",
         transcription: "",
         voiceRecPath: "",
-        keywords: [
-        ],
-        speaker: "None"
-      }
-      state.value["sentences"] = {...sentences, [state.nextId] : newNode}
-      state.nextId = state.nextId + 1
+        keywords: [],
+        speaker: "None",
+      };
+      state.value["sentences"] = { ...sentences, [state.nextId]: newNode };
+      const dict = { ...state.locations };
+      dict[state.nextId.toString()] = { x: -100, y: -100 };
+      state.locations = dict;
+
+      state.nextId = state.nextId + 1;
     },
     reset: (state) => {
       state.value = require("./template.json");
-      state.nextId = 1001
+      state.locations = { 1000: { x: 0, y: 0 } };
+      state.nextId = 1001;
     },
     /**
      * loads the nodes from JSON file
-     * @param {JSON} data - JSON file
+     * @param {JSON} action.payload - JSON file
      */
     load: (state, action) => {
       state.value["sentences"] = action.payload["sentences"];
-      state.nextId = Math.max(...Object.keys(state.value["sentences"]).map(key => parseInt(key))) + 1
+      const dict = {};
+      Object.keys(state.value["sentences"]).map(
+        (key, i) => (dict[key] = { x: i * 100, y: i * 100 })
+      );
+      state.locations = dict;
+      state.nextId =
+        Math.max(
+          ...Object.keys(state.value["sentences"]).map((key) => parseInt(key))
+        ) + 1;
+    },
+    updateLocation: {
+      reducer(state, action) {
+        const dict = { ...state.locations };
+        dict[action.payload.id] = action.payload.location;
+        state.locations = dict;
+      },
+      prepare(id, location) {
+        return {
+          payload: {
+            id,
+            location,
+          },
+        };
+      },
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset, load, addNode } = nodeSlice.actions;
+export const { update, reset, load, addNode, updateLocation } =
+  nodeSlice.actions;
 
 export default nodeSlice.reducer;

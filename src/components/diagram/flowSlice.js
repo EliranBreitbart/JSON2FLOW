@@ -16,20 +16,21 @@ export const flowSlice = createSlice({
       reducer(state, action) {
         const { flow } = state.value;
 
-        if(flow[action.payload.fromID] === undefined) {
-          state.value["flow"] = {...flow, [action.payload.fromID] : []};
+        if (flow[action.payload.fromID] === undefined) {
+          state.value["flow"] = { ...flow, [action.payload.fromID]: [] };
           return;
         }
 
-        const toIdIndex = flow[action.payload.fromID].indexOf(action.payload.toID);
+        const toIdIndex = flow[action.payload.fromID].indexOf(
+          action.payload.toID
+        );
 
         if (action.payload.action === 1 && toIdIndex === -1) {
           flow[action.payload.fromID].push(action.payload.toID);
         } else if (action.payload.action === 0 && toIdIndex > -1) {
-            flow[action.payload.fromID].splice(toIdIndex, 1);
+          flow[action.payload.fromID].splice(toIdIndex, 1);
         }
         state.value["flow"] = flow;
-
       },
       prepare(fromID, toID, action) {
         return {

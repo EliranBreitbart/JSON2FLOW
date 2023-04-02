@@ -44,9 +44,6 @@ const Header = () => {
   /*HandleLoad modal error */
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   /* get states and export */
   const data = useSelector((state) => state.fileInfo.value);
   const flow = useSelector((state) => state.flow.value);
@@ -100,13 +97,13 @@ const Header = () => {
         id="file"
         ref={hiddenFileInput}
         onChange={handleChange}
-        onClick={(event)=> {
-          event.target.value = null
+        onClick={(event) => {
+          event.target.value = null;
         }}
         style={{ display: "none" }}
       />
       {/* Error message popup when wrong json file is uploaded */}
-      <Modal show={show} onHide={handleClose} size="sm">
+      <Modal show={show} onShow={() => setShow(true)} onHide={() => setShow(false)} size="sm">
         <Modal.Body>
           <div align="center">Loaded file is not a valid JSON</div>
         </Modal.Body>
