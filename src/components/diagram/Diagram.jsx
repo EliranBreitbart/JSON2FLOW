@@ -7,11 +7,11 @@ import ReactFlow, {
   useKeyPress,
 } from "reactflow";
 import { useSelector, useDispatch } from "react-redux";
-import { update as updateFlow } from "../diagram/flowSlice";
+import { update as updateFlow, removeFlow } from "../diagram/flowSlice";
 import {
   update as updateNode,
   addNode,
-  updateLocation,
+  updateLocation, removeNode,
 } from "../Node/nodeSlice";
 import "./diagram.scss";
 
@@ -20,9 +20,7 @@ import "./diagram.scss";
  *  Update create nodes
  *  Custom nodes (with reset option)
  *  Validate Flow (circles, speakers)
- *  Update useEffect for deletion to work for Nodes
- *  Node Location fix
- *  Node removal
+ *  When nodes are completely disconnected, reset to None.
  *  Custom Node with side handles so that it can be more readable
  *  */
 
@@ -98,8 +96,12 @@ const Diagram = () => {
   const [iconDelete, setIconDelete] = useState(true);
   const deletePressed = useKeyPress("Delete");
   useEffect(() => {
-    console.log();
-    dispatch(updateFlow(clickedElement.source, clickedElement.target, 0));
+    if(clickedElement["id"].includes("-")) {
+      dispatch(updateFlow(clickedElement.source, clickedElement.target, 0));
+    } else {
+      dispatch(removeNode(clickedElement.id))
+      dispatch(removeFlow(clickedElement.id))
+    }
     setClickedElement({ id: "1000-0", source: "0", target: "0" });
   }, [deletePressed, iconDelete]);
 
@@ -111,6 +113,7 @@ const Diagram = () => {
           edges={edges}
           onConnect={onConnect}
           onEdgeClick={(event, edge) => setClickedElement(edge)}
+          onNodeClick={(event, node) => setClickedElement(node)}
           onNodesChange={onNodesChange}
         >
           <Background />

@@ -15,7 +15,8 @@ export const flowSlice = createSlice({
     update: {
       reducer(state, action) {
         const { flow } = state.value;
-
+        if(action.payload.fromID === "0") //default item in the delete state
+          return;
         if (flow[action.payload.fromID] === undefined) {
           state.value["flow"] = { ...flow, [action.payload.fromID]: [] };
           return;
@@ -56,10 +57,27 @@ export const flowSlice = createSlice({
     load: (state, action) => {
       state.value["flow"] = action.payload["flow"];
     },
+    /**
+     * Loads flow from JSON file
+     * @param {any} state - The flow state
+     * @param {String} action.payload - the id of the node we removed
+     */
+    removeFlow: (state, action) =>{
+      if(action.payload === "1000")
+        return
+      const { flow } = state.value;
+      delete flow[action.payload]
+      Object.values(flow).map(val => {
+        const index = val.indexOf(action.payload)
+        if(val !== -1 )
+          val.splice(index, 1)
+      })
+      state.value["sentences"] = flow
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset, load } = flowSlice.actions;
+export const { update, reset, load, removeFlow } = flowSlice.actions;
 
 export default flowSlice.reducer;

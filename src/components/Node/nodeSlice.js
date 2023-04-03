@@ -49,6 +49,13 @@ export const nodeSlice = createSlice({
 
       state.nextId = state.nextId + 1;
     },
+    removeNode: (state, action) => {
+      if(action.payload === "1000")
+        return
+      const { sentences } = state.value;
+      delete sentences[action.payload]
+      state.value["sentences"] = sentences
+    },
     reset: (state) => {
       state.value = require("./template.json");
       state.locations = { 1000: { x: 0, y: 0 } };
@@ -70,6 +77,12 @@ export const nodeSlice = createSlice({
           ...Object.keys(state.value["sentences"]).map((key) => parseInt(key))
         ) + 1;
     },
+    /**
+     * Loads flow from JSON file
+     * @param {any} state - The node state
+     * @param {String} action.payload.id - the Node id
+     * @param {{int, int}} action.payload.location - the new location
+     */
     updateLocation: {
       reducer(state, action) {
         const dict = { ...state.locations };
@@ -89,7 +102,7 @@ export const nodeSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset, load, addNode, updateLocation } =
+export const { update, reset, load, addNode, updateLocation, removeNode } =
   nodeSlice.actions;
 
 export default nodeSlice.reducer;
