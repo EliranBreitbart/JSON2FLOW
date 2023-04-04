@@ -4,7 +4,7 @@ import ReactFlow, {
   ControlButton,
   Controls,
   ReactFlowProvider,
-  useKeyPress,
+  useKeyPress, useReactFlow,
 } from "reactflow";
 import { useSelector, useDispatch } from "react-redux";
 import { update as updateFlow, removeFlow } from "../diagram/flowSlice";
@@ -13,6 +13,7 @@ import {
   addNode,
   updateLocation, removeNode,
 } from "../Node/nodeSlice";
+import dagre from 'dagre';
 import "./diagram.scss";
 
 /*
@@ -23,7 +24,7 @@ import "./diagram.scss";
  *  Custom Node with side handles so that it can be more readable
  *  */
 
-const Diagram = () => {
+const Flow = () => {
   //get and load Nodes
   const { sentences } = useSelector((state) => state.sentences.value);
   const locations = useSelector((state) => state.sentences.locations);
@@ -88,6 +89,7 @@ const Diagram = () => {
       dispatch(updateFlow(params.source, params.target, 1));
     }
   };
+
   const [clickedElement, setClickedElement] = useState({
     id: "1000-0",
     source: "1000",
@@ -105,21 +107,43 @@ const Diagram = () => {
       dispatch(removeFlow(clickedElement.id))
     }
     //Turn Disconnected Nodes to none
-    Object.keys(flow).filter(id => id !== "1000" && flow[id].length === 0 && !Object.values(flow).flat().includes(id)).map( id => dispatch(updateNode(id, "speaker", "None")))
+    Object.keys(flow).filter(id => id !== "1000" && id !== clickedElement.id && flow[id].length === 0 && !Object.values(flow).flat().includes(id)).map( id => dispatch(updateNode(id, "speaker", "None")))
     setClickedElement({ id: "1000-0", source: "0", target: "0" });
-  }, [deletePressed, iconDelete]);
+  }, [deletePressed, iconDelete])
+
+
+  //Align Flow
+  const reactFlowInstance = useReactFlow();
+  let graph = new dagre.graphlib.Graph().setGraph({}).setDefaultEdgeLabel(function () { return {} });
+
+  const Tree = () => {
+    const realNodes = reactFlowInstance.getNodes();
+    realNodes.forEach((node) => {
+      graph.setNode(node.id, { width: node.width, height: node.height });
+    });
+    const realEdges = reactFlowInstance.getEdges();
+    realEdges.forEach((edge) => {
+      graph.setEdge(edge.source, edge.target);
+    });
+    dagre.layout(graph) ;
+    Object.keys(sentences).forEach(id => {
+      const nodeWithPosition = graph.node(id);
+      dispatch(updateLocation(id,{x: nodeWithPosition.x - nodeWithPosition.width / 2, y:nodeWithPosition.y - nodeWithPosition.height / 2}))
+
+    })
+  }
+
 
   return (
     <div className={"diagram_container"}>
-      <ReactFlowProvider>
         <ReactFlow
+            defaultNodes={[]}
           nodes={nodes}
           edges={edges}
           onConnect={onConnect}
           onEdgeClick={(event, edge) => setClickedElement(edge)}
           onNodeClick={(event, node) => setClickedElement(node)}
-          onNodesChange={onNodesChange}
-        >
+          onNodesChange={onNodesChange}>
           <Background />
           <Controls>
             <ControlButton
@@ -133,12 +157,22 @@ const Diagram = () => {
               onClick={() => add_Node()}
               title="To delete selected, or click 'delete'"
             />
+            <ControlButton
+                onClick={() => Tree()}
+                title="To delete selected, or click 'delete'"
+            >T</ControlButton>
           </Controls>
         </ReactFlow>
-      </ReactFlowProvider>
       {/*<button onClick={() => console.log(sentences)}>test</button>*/}
     </div>
   );
 };
+const Diagram = () => {
 
+  return (
+      <ReactFlowProvider>
+        <Flow />
+      </ReactFlowProvider>
+  );
+};
 export default Diagram;
