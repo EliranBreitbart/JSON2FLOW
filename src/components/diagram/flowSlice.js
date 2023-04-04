@@ -60,7 +60,7 @@ export const flowSlice = createSlice({
     /**
      * Loads flow from JSON file
      * @param {any} state - The flow state
-     * @param {String} action.payload - the id of the node we removed
+     * @param {any} action - the id of the node we removed
      */
     removeFlow: (state, action) =>{
       if(action.payload === "1000")
@@ -72,7 +72,7 @@ export const flowSlice = createSlice({
         if(val !== -1 )
           val.splice(index, 1)
       })
-      state.value["sentences"] = flow
+      state.value["flow"] = flow
     }
   },
 });

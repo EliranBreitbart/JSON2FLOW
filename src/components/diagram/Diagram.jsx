@@ -20,7 +20,6 @@ import "./diagram.scss";
  *  Update create nodes
  *  Custom nodes (with reset option)
  *  Validate Flow (circles, speakers)
- *  When nodes are completely disconnected, reset to None.
  *  Custom Node with side handles so that it can be more readable
  *  */
 
@@ -50,11 +49,12 @@ const Diagram = () => {
     dispatch(addNode());
     dispatch(updateFlow(nextId.toString(), "0", -1));
   };
+
   //get and load Flow
-  const flow = useSelector((state) => state.flow.value);
-  const edges = Object.keys(flow.flow)
+  const { flow } = useSelector((state) => state.flow.value);
+  const edges = Object.keys(flow)
     .map((key) => {
-      return flow.flow[key].map((iid) => ({
+      return flow[key].map((iid) => ({
         id: key + "-" + iid,
         source: key,
         target: iid,
@@ -62,7 +62,7 @@ const Diagram = () => {
     })
     .flat();
 
-  //Handle Connect and delete nodes
+  //Handle Connect nodes
   const onConnect = (params) => {
     if (
       sentences[params.source]["speaker"] !==
@@ -93,6 +93,8 @@ const Diagram = () => {
     source: "1000",
     target: "0",
   });
+
+  //Handle deletion of nodes and edges
   const [iconDelete, setIconDelete] = useState(true);
   const deletePressed = useKeyPress("Delete");
   useEffect(() => {
@@ -102,6 +104,9 @@ const Diagram = () => {
       dispatch(removeNode(clickedElement.id))
       dispatch(removeFlow(clickedElement.id))
     }
+    //Turn Disconnected Nodes to none
+    Object.keys(flow).filter(id => flow[id] !== undefined && id !== "1000" && flow[id].length === 0 && !Object.values(flow).flat().includes(id)).map(
+        id => dispatch(updateNode(id, "speaker", "None")))
     setClickedElement({ id: "1000-0", source: "0", target: "0" });
   }, [deletePressed, iconDelete]);
 

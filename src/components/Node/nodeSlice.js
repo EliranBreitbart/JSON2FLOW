@@ -10,7 +10,9 @@ export const nodeSlice = createSlice({
   reducers: {
     /**
      * Updates sentences (nodes)
-     * @param {_} _ - The source node ID
+     * @param {string} payload.id - The source node ID
+     * @param {string} payload.field - The field we want to change
+     * @param {string} payload.data - the data to put in the field
      */
     update: {
       reducer(state, action) {
@@ -49,6 +51,11 @@ export const nodeSlice = createSlice({
 
       state.nextId = state.nextId + 1;
     },
+    /**
+     * Loads flow from JSON file
+     * @param {any} state - The flow state
+     * @param {any} action - the id of the node we want to remove (id 1000 wont be removed)
+     */
     removeNode: (state, action) => {
       if(action.payload === "1000")
         return
