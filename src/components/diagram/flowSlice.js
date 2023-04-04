@@ -67,10 +67,10 @@ export const flowSlice = createSlice({
         return
       const { flow } = state.value;
       delete flow[action.payload]
-      Object.values(flow).map(val => {
-        const index = val.indexOf(action.payload)
-        if(val !== -1 )
-          val.splice(index, 1)
+      Object.keys(flow).map(id => {
+        const index = flow[id].indexOf(action.payload)
+        if(index !== -1 )
+          flow[id] = flow[id].filter(x => x !== action.payload)
       })
       state.value["flow"] = flow
     }

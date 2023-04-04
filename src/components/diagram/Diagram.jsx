@@ -105,8 +105,7 @@ const Diagram = () => {
       dispatch(removeFlow(clickedElement.id))
     }
     //Turn Disconnected Nodes to none
-    Object.keys(flow).filter(id => flow[id] !== undefined && id !== "1000" && flow[id].length === 0 && !Object.values(flow).flat().includes(id)).map(
-        id => dispatch(updateNode(id, "speaker", "None")))
+    Object.keys(flow).filter(id => id !== "1000" && flow[id].length === 0 && !Object.values(flow).flat().includes(id)).map( id => dispatch(updateNode(id, "speaker", "None")))
     setClickedElement({ id: "1000-0", source: "0", target: "0" });
   }, [deletePressed, iconDelete]);
 
