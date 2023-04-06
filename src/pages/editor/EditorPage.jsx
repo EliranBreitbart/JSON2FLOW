@@ -1,4 +1,4 @@
-import React, from "react";
+import React from "react";
 import Diagram from "../../components/diagram";
 import JsonView from "../../components/JsonView";
 import FileInfo from "../../components/FileInfo";
