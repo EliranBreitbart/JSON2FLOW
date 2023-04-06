@@ -16,6 +16,12 @@ export const nodeSlice = createSlice({
      */
     update: {
       reducer(state, action) {
+        if(state.value["sentences"][action.payload.id] === undefined)
+          return
+        if(action.payload.field === "keywords"){
+          state.value["sentences"][action.payload.id][action.payload.field] = action.payload.data.replace(" ", "").split(",");
+          return
+        }
         state.value["sentences"][action.payload.id][action.payload.field] =
           action.payload.data;
       },

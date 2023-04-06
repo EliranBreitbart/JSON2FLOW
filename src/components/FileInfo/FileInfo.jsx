@@ -41,7 +41,7 @@ const FileInfo = () => {
               <tbody>
                 {/* Dynamically creates the fields from the Json file and onChange functions */}
                 {Object.keys(data).map((field, index) => {
-                  if (index < 7)
+                  if (index < 8)
                     return (
                       <tr key={index}>
                         <td>{`${field}:`}</td>

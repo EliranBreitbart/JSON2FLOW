@@ -13,15 +13,16 @@ import {
   addNode,
   updateLocation, removeNode,
 } from "../Node/nodeSlice";
+import DockModal from "../dockModal"
 import dagre from 'dagre';
 import "./diagram.scss";
 
 /*
  * TODO:
- *  Update create nodes
  *  Custom nodes (with reset option)
  *  Validate Flow (circles, speakers)
  *  Custom Node with side handles so that it can be more readable
+ *  update all code to use "start" instead of 1000
  *  */
 
 const Flow = () => {
@@ -132,8 +133,6 @@ const Flow = () => {
 
     })
   }
-
-
   return (
     <div className={"diagram_container"}>
         <ReactFlow
@@ -158,11 +157,12 @@ const Flow = () => {
               title="To delete selected, or click 'delete'"
             />
             <ControlButton
+                className={"Tree-Button"}
                 onClick={() => Tree()}
-                title="To delete selected, or click 'delete'"
-            >T</ControlButton>
+                title="Rearrange Nodes to Tree"/>
           </Controls>
         </ReactFlow>
+      <DockModal node={sentences[clickedElement.id]}/>
       {/*<button onClick={() => console.log(sentences)}>test</button>*/}
     </div>
   );
