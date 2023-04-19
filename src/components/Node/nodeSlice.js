@@ -6,6 +6,7 @@ export const nodeSlice = createSlice({
     value: require("./template.json"),
     nextId: 1001,
     locations: { 1000: { x: 0, y: 0 } },
+    loaded: false,
   },
   reducers: {
     /**
@@ -82,7 +83,7 @@ export const nodeSlice = createSlice({
       state.value["sentences"] = action.payload["sentences"];
       const dict = {};
       Object.keys(state.value["sentences"]).map(
-        (key, i) => (dict[key] = { x: i * 100, y: i * 100 })
+        (key) => (dict[key] = { x: 0, y: 0})
       );
       state.locations = dict;
       state.nextId =
@@ -111,11 +112,17 @@ export const nodeSlice = createSlice({
         };
       },
     },
+    /**
+     * Changes loaded state to its opposite (true => false, false => true)
+     */
+    updateLoaded: (state) => {
+      state.loaded = !state.loaded;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset, load, addNode, updateLocation, removeNode } =
+export const { update, reset, load, addNode, updateLocation, removeNode, updateLoaded } =
   nodeSlice.actions;
 
 export default nodeSlice.reducer;

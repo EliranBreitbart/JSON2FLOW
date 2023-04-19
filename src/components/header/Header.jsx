@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { load as loadData } from "../FileInfo/fileInfoSlice";
 import { load as loadFlow } from "../diagram/flowSlice";
 import { load as loadSentences } from "../Node/nodeSlice";
+import { updateLoaded } from "../Node/nodeSlice";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 const Header = () => {
   /* element functions */
@@ -32,13 +34,13 @@ const Header = () => {
     fileReader.onload = (event) => {
       try {
         const json = JSON.parse(event.target.result);
-        [loadData, loadFlow, loadSentences].map((func) => dispatch(func(json)));
+        [loadData, loadFlow, loadSentences].map((func) =>
+            dispatch(func(json)));
+        wait(0).then(() => dispatch(updateLoaded())); //wait for items to load before dispatching
       } catch (e) {
         setShow(true);
       }
-      // dispatch(loadData(JSON.parse(event.target.result)));
-      // dispatch(loadFlow(JSON.parse(event.target.result)));
-      // dispatch(loadSentences(JSON.parse(event.target.result)));
+
     };
   };
   /*HandleLoad modal error */

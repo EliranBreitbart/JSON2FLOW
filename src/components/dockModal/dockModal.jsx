@@ -10,7 +10,7 @@ const DockModal = ({node}) => {
 
     return (
         <div className={"modal-container"}>
-            <div className={"modal-header"}>
+            <div className={"modal-header"} onClick={() => {if(!show)setShow(true)}}>
                 <div className={"modal_minimize"} onClick={() => setShow(!show)}/>
                 <div className={"modal-header-title"}>id: {(node !== undefined) ? node["id_"] : ""}</div>
             </div>

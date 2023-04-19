@@ -11,7 +11,7 @@ import { update as updateFlow, removeFlow } from "../diagram/flowSlice";
 import {
   update as updateNode,
   addNode,
-  updateLocation, removeNode,
+  updateLocation, removeNode, updateLoaded
 } from "../Node/nodeSlice";
 import DockModal from "../dockModal"
 import dagre from 'dagre';
@@ -23,6 +23,14 @@ import "./diagram.scss";
  *  Validate Flow (circles, speakers)
  *  Custom Node with side handles so that it can be more readable
  *  update all code to use "start" instead of 1000
+ *  check about isCorrectAnswer field
+ *  when clicking + (=) add new node
+ *  Add arrows to edges
+ *  Create Custom Node (with button to choose)
+ *  Remove the constrains of Bot-to-Bot
+ *  Custom Edge
+ *  Sound Recorder / Upload / Replay
+ *  Back-End
  *  */
 
 const Flow = () => {
@@ -30,6 +38,7 @@ const Flow = () => {
   const { sentences } = useSelector((state) => state.sentences.value);
   const locations = useSelector((state) => state.sentences.locations);
   const nextId = useSelector((state) => state.sentences.nextId);
+  const loaded = useSelector((state) => state.sentences.loaded);
   const dispatch = useDispatch();
   const nodes = Object.values(sentences).map((sentence) => {
     return {
@@ -60,6 +69,8 @@ const Flow = () => {
         id: key + "-" + iid,
         source: key,
         target: iid,
+        type: "step",
+        markerEnd: { type: 'arrow', color: 'Black' },
       }));
     })
     .flat();
@@ -95,6 +106,7 @@ const Flow = () => {
     id: "1000-0",
     source: "1000",
     target: "0",
+    type: "step",
   });
 
   //Handle deletion of nodes and edges
@@ -130,9 +142,15 @@ const Flow = () => {
     Object.keys(sentences).forEach(id => {
       const nodeWithPosition = graph.node(id);
       dispatch(updateLocation(id,{x: nodeWithPosition.x - nodeWithPosition.width / 2, y:nodeWithPosition.y - nodeWithPosition.height / 2}))
-
     })
   }
+  useEffect(() =>{
+    console.log(loaded);
+    if (loaded){
+      Tree();
+      dispatch(updateLoaded());
+    }
+  }, [nodes])
   return (
     <div className={"diagram_container"}>
         <ReactFlow
@@ -163,7 +181,6 @@ const Flow = () => {
           </Controls>
         </ReactFlow>
       <DockModal node={sentences[clickedElement.id]}/>
-      {/*<button onClick={() => console.log(sentences)}>test</button>*/}
     </div>
   );
 };
