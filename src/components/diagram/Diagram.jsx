@@ -1,21 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
-import ReactFlow, {
-  Background,
-  ControlButton,
-  Controls,
-  ReactFlowProvider,
-  useKeyPress, useReactFlow,
-} from "reactflow";
+import React, {useCallback, useEffect, useState} from "react";
+import ReactFlow, { Background, ControlButton, Controls, ReactFlowProvider, useKeyPress, useReactFlow,} from "reactflow";
 import { useSelector, useDispatch } from "react-redux";
 import { update as updateFlow, removeFlow } from "../diagram/flowSlice";
-import {
-  update as updateNode,
-  addNode,
-  updateLocation, removeNode, updateLoaded
-} from "../Node/nodeSlice";
+import {  update as updateNode,  addNode,  updateLocation, removeNode, updateLoaded } from "../Node/nodeSlice";
 import DockModal from "../dockModal"
+import ConnectionLine from "../Node/ConnectionLine";
 import dagre from 'dagre';
 import "./diagram.scss";
+
 
 /*
  * TODO:
@@ -25,10 +17,8 @@ import "./diagram.scss";
  *  update all code to use "start" instead of 1000
  *  check about isCorrectAnswer field
  *  when clicking + (=) add new node
- *  Add arrows to edges
  *  Create Custom Node (with button to choose)
  *  Remove the constrains of Bot-to-Bot
- *  Custom Edge
  *  Sound Recorder / Upload / Replay
  *  Back-End
  *  */
@@ -70,43 +60,40 @@ const Flow = () => {
         source: key,
         target: iid,
         type: "step",
-        markerEnd: { type: 'arrow', color: 'Black' },
+        markerEnd: { type: 'arrowclosed', color: "#b1b1b7" },
       }));
     })
     .flat();
 
   //Handle Connect nodes
   const onConnect = (params) => {
-    if (
-      sentences[params.source]["speaker"] !==
-      sentences[params.target]["speaker"]
-    ) {
-      if (sentences[params.target]["speaker"] === "None") {
-        dispatch(
-          updateNode(
-            sentences[params.target]["id_"],
-            "speaker",
-            sentences[params.source]["speaker"] === "bot" ? "speaker" : "bot"
-          )
-        );
-      } else if (sentences[params.source]["speaker"] === "None") {
-        dispatch(
-          updateNode(
-            sentences[params.source]["id_"],
-            "speaker",
-            sentences[params.target]["speaker"] === "bot" ? "speaker" : "bot"
-          )
-        );
-      }
-      dispatch(updateFlow(params.source, params.target, 1));
+    if(sentences[params.target]["speaker"] == "user" && sentences[params.source]["speaker"] == "user") {
+      return;
     }
+    if (sentences[params.target]["speaker"] === "None") {
+      dispatch(
+        updateNode(
+          sentences[params.target]["id_"],
+          "speaker",
+          sentences[params.source]["speaker"] === "bot" ? "user" : "bot"
+        )
+      );
+    } else if (sentences[params.source]["speaker"] === "None") {
+      dispatch(
+        updateNode(
+          sentences[params.source]["id_"],
+          "speaker",
+          sentences[params.target]["speaker"] === "bot" ? "user" : "bot"
+        )
+      );
+    }
+    dispatch(updateFlow(params.source, params.target, 1));
   };
 
   const [clickedElement, setClickedElement] = useState({
     id: "1000-0",
     source: "1000",
     target: "0",
-    type: "step",
   });
 
   //Handle deletion of nodes and edges
@@ -145,22 +132,24 @@ const Flow = () => {
     })
   }
   useEffect(() =>{
-    console.log(loaded);
     if (loaded){
       Tree();
       dispatch(updateLoaded());
     }
-  }, [nodes])
+  }, [loaded])
+
   return (
     <div className={"diagram_container"}>
         <ReactFlow
-            defaultNodes={[]}
+          defaultNodes={[]}
           nodes={nodes}
           edges={edges}
           onConnect={onConnect}
           onEdgeClick={(event, edge) => setClickedElement(edge)}
           onNodeClick={(event, node) => setClickedElement(node)}
-          onNodesChange={onNodesChange}>
+          onNodesChange={onNodesChange}
+          connectionLineComponent={ConnectionLine}
+        >
           <Background />
           <Controls>
             <ControlButton

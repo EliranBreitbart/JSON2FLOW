@@ -33,3 +33,22 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+.react-flow__edge-path{
+  stroke-width: 2.2;
+}
+
+.react-flow__node-customNode {
+  font-size: 12px;
+  background: #eee;
+  border: 1px solid #555;
+  border-radius: 3px;
+}
+.label {
+  margin: 7px;
+}
+.customNode{
+  min-height: 20px;
+  min-width: 100px;
+  text-align: center;
+  display: inline;
+}

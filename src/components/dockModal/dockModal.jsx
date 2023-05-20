@@ -3,11 +3,11 @@ import "./dockModal.scss";
 import Table from "react-bootstrap/Table";
 import {update} from "../Node/nodeSlice";
 import {useDispatch} from "react-redux";
+import InputState from "./inputState";
 const DockModal = ({node}) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(true);
     useEffect( () => setShow(true),[node] )
-
     return (
         <div className={"modal-container"}>
             <div className={"modal-header"} onClick={() => {if(!show)setShow(true)}}>
@@ -24,12 +24,7 @@ const DockModal = ({node}) => {
                                     <tr key={index}>
                                         <td>{`${field}:`}</td>
                                         <td>
-                                            <input className={"sm-input"}
-                                                value={node[field]}
-                                                onChange={(e) =>
-                                                    dispatch(update(node["id_"],field, e.target.value))
-                                                }
-                                            />
+                                            <InputState field ={field} node={node} dispatch={dispatch} id={node["id_"]} value ={node[field]} />
                                         </td>
                                     </tr>
                                 );
@@ -41,5 +36,5 @@ const DockModal = ({node}) => {
         </div>
     );
 };
-
 export default DockModal;
+

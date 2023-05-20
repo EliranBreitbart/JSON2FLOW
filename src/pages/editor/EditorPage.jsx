@@ -1,5 +1,5 @@
 import React  from "react";
-import Diagram from "../../components/diagram";
+import Diagram2 from "../../components/diagram";
 import JsonView from "../../components/JsonView";
 import FileInfo from "../../components/FileInfo";
 import "./EditorPage.scss";
@@ -10,7 +10,7 @@ const EditorPage = () => {
     <>
 
       <div className={"container"}>
-        <Diagram />
+        <Diagram2 />
         <JsonView />
       </div>
       <FileInfo />
