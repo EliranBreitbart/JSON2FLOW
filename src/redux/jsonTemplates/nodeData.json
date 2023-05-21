@@ -1,0 +1,15 @@
+{
+  "sentences": {
+    "1000": {
+      "id_": "1000",
+      "arabic": "",
+      "arabicWithoutDiacritics": "",
+      "hebrew": "טקסט",
+      "transcription": "",
+      "voiceRecPath": "",
+      "keywords": [
+      ],
+      "speaker": "bot"
+    }
+  }
+}

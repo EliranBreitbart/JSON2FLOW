@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { load as loadData } from "../FileInfo/fileInfoSlice";
+import { load as loadNodeData} from "../../redux/nodeDataSlice";
 import { load as loadFlow } from "../diagram/flowSlice";
 import { load as loadSentences } from "../Node/nodeSlice";
 import { updateLoaded } from "../Node/nodeSlice";
@@ -33,11 +33,12 @@ const Header = () => {
     fileReader.readAsText(event.target.files[0], "UTF-8");
     fileReader.onload = (event) => {
       try {
-        const json = JSON.parse(event.target.result);
-        [loadData, loadFlow, loadSentences].map((func) =>
-            dispatch(func(json)));
-        wait(0).then(() => dispatch(updateLoaded())); //wait for items to load before dispatching
+         const json = JSON.parse(event.target.result);
+         [loadNodeData, loadFlow, loadSentences].map((func) =>
+             dispatch(func(json)));
+        //wait(0).then(() => dispatch(updateLoaded())); //wait for items to load before dispatching
       } catch (e) {
+        console.log(e);
         setShow(true);
       }
 

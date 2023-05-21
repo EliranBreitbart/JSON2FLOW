@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 const JsonView = () => {
   /* load all data to view */
   const data = useSelector((state) => state.fileInfo.value);
-  const flow = useSelector((state) => state.flow.value);
-  const sentences = useSelector((state) => state.sentences.value);
+  const flow = useSelector((state) => state.edges.json);
+  const sentences = useSelector((state) => state.nodes.json);
   return (
     <div className={"JsonView"}>
       <ReactJson

@@ -6,21 +6,48 @@ import { createSlice } from "@reduxjs/toolkit";
 export const nodeDataSlice = createSlice({
     name: "nodeDataSlice",
     initialState: {
-        nodeTitles: {1000: "text"},
+        json: require("./jsonTemplates/nodeData.json"),
+        load: 1,
     },
     reducers: {
+        load: (state, action) => {
+            state.json["sentences"] = action.payload["sentences"];
+            state.load = (state.load + 1 % 2);
+        },
         /**
          * Updates sentences (nodes)
          * @param {string} payload.id - The source node ID
          * @param {string} payload.field - The field we want to change
          * @param {string} payload.data - the data to put in the field
          */
-        update: {
+        updateField: {
             reducer(state, action) {
+                const {id, field, data} = action.payload;
+                    state.json["sentences"][id][field] = data;
+
             },
-            prepare(id, field, data) {
+            prepare(id, field, data , update) {
                 return {
                     payload: {
+                        id,
+                        field,
+                        data,
+                        update,
+                    },
+                };
+            },
+        },
+        removeField: {
+            reducer(state, action) {
+                const {id, field} = action.payload;
+                delete state.json["sentences"][id][field];
+
+            },
+            prepare(id, field) {
+                return {
+                    payload: {
+                        id,
+                        field,
                     },
                 };
             },
@@ -36,6 +63,6 @@ export const nodeDataSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset,} = nodeDataSlice.actions;
+export const { updateField, reset, load, removeField} = nodeDataSlice.actions;
 
 export default nodeDataSlice.reducer;
