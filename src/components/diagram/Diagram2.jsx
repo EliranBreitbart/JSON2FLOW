@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import ReactFlow, {
     Background, ControlButton, Controls, ReactFlowProvider, useNodesState,
-    useEdgesState, useReactFlow,
+    useEdgesState, useReactFlow, useKeyPress,
 } from "reactflow";
 import ConnectionLine from "../Node/ConnectionLine";
 import "./diagram.scss";
@@ -9,8 +9,8 @@ import CustomNode from "../Node/node";
 import {useDispatch, useSelector} from "react-redux";
 import dagre from "dagre";
 import {wait} from "@testing-library/user-event/dist/utils";
-import {addNode} from "../../redux/nodeDataSlice";
-import {addNode as addNodeToFlow, updateEdge} from "../../redux/edgeDataSlice";
+import {addNode, removeNode} from "../../redux/nodeDataSlice";
+import {addNode as addNodeToFlow, removeEdges, updateFlowEdge} from "../../redux/edgeDataSlice";
 /*
  * TODO:
  *  Add remove functionality.
@@ -21,7 +21,8 @@ import {addNode as addNodeToFlow, updateEdge} from "../../redux/edgeDataSlice";
 function findMissingNumber(ids) {
     // Convert the IDs from strings to numbers
     const numbers = ids.map(Number);
-
+    if(numbers.length === 0)
+        return "1000";
     // Sort the numbers in ascending order
     numbers.sort((a, b) => a - b);
 
@@ -60,7 +61,8 @@ const nodeTypes = {
     customNode: CustomNode,
 };
 const Flow = () => {
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(false);
+    const [clickedElement, setClickedElement] = useState(null);
     const dispatch = useDispatch();
     //region /* NODES */
     const {sentences} = useSelector((state) => state.nodes.json);
@@ -85,7 +87,6 @@ const Flow = () => {
         dispatch(addNodeToFlow(newNode["id_"]));
         setNodes(nds => nds.concat(memoizedCreateNode(newNode)));
     };
-    useEffect(() =>{console.log(Object.keys(sentences))},[sentences])
     //endregion
     //region /* Edges */
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -95,8 +96,7 @@ const Flow = () => {
         []
     );
     const onConnect = (params) => {
-        console.log(params)
-        dispatch(updateEdge(params.source, params.target,0));
+        dispatch(updateFlowEdge(params.source, params.target,0));
         const edge = memoizedCreateEdge(params.source, params.target);
         if(!edges.some((element) => element.id === edge.id)) {
             setEdges((eds) => eds.concat(edge));
@@ -106,7 +106,6 @@ const Flow = () => {
     useEffect(() => {
         if(nodes.length !== 0)
             return;
-        console.log("Create");
         Object.values(sentences).map((sentence) => { // creating  nodes
             setNodes((nds) =>
                 nds.concat(memoizedCreateNode(sentence)))
@@ -154,7 +153,30 @@ const Flow = () => {
                 ))
     }
     //endregion
+    //region /*Delete*/
+    const deletePressed = useKeyPress("Delete");
 
+    const delete_edge = () => {
+        dispatch(updateFlowEdge(clickedElement.source, clickedElement.target, 1));
+        setEdges((eds) => eds.filter(edge => edge.id !== clickedElement.id));
+    }
+    const delete_node = () => {
+        dispatch(removeNode(clickedElement.id));
+        dispatch(removeEdges(clickedElement.id));
+        setNodes(nds => nds.filter(node => node.id !== clickedElement.id));
+        setEdges( eds => eds.filter(edge => edge.source !== clickedElement.id || edge.target !== clickedElement.id))
+    }
+
+    const delete_element = () => {
+        if(clickedElement === null || clickedElement === undefined)
+            return;
+        if(clickedElement.type === 'customNode')
+            delete_node()
+        else if(clickedElement.type === 'step')
+            delete_edge()
+    }
+    useEffect( delete_element,[deletePressed]);
+    //endregion
     return (
             <div className={"diagram_container"}>
                 <ReactFlow
@@ -162,9 +184,13 @@ const Flow = () => {
                     edges={edges}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
+                    onEdgeClick={(event, edge) => setClickedElement(edge)}
+                    onNodeClick={(event, node) => setClickedElement(node)}
+                    onPaneClick={() => setClickedElement(null)}
                     onConnect={onConnect}
                     connectionLineComponent={ConnectionLine}
                     nodeTypes={nodeTypes}
+
                 >
                     <Background />
                     <Controls>
@@ -172,7 +198,7 @@ const Flow = () => {
                             onClick={() => {}}
                             title="To delete selected, or click 'delete'"
                         >
-                            <div className={"delete"}>🗑️</div>
+                            <div className={"delete"} onClick={delete_element}>🗑️</div>
                         </ControlButton>
                         <ControlButton
                             className={"Add-Button"}

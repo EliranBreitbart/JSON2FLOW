@@ -12,11 +12,12 @@ export const edgeDataSlice = createSlice({
          * @param {any} action - the action
          * @param {String} action.payload - the id of the node we removed
          */
-        addNode: (state, action) =>{
+        addNode: (state = this.state, action) =>{
             const newNode = action.payload;
             state.json["flow"] = {...state.json["flow"], [newNode]: []}
         },
-        deleteNode: (state, action) =>{
+        //unused?
+        deleteNode: (state = this.state, action) =>{
             const nodeToDelete = action.payload;
             const {flow} = state.json;
             delete flow[nodeToDelete];
@@ -28,8 +29,8 @@ export const edgeDataSlice = createSlice({
          * @param {string} toID - The target node ID
          * @param {int} logic - the action
          */
-        updateEdge: {
-            reducer(state, action) {
+        updateFlowEdge: {
+            reducer(state = this.state, action) {
                 const { flow } = state.json;
                 const {fromID, toID, logic} = action.payload;
                 if(logic === 0){ //add edge
@@ -57,7 +58,7 @@ export const edgeDataSlice = createSlice({
         /**
          * Resets the flow to default state
          */
-        reset: (state) => {
+        reset: (state = this.state) => {
             state.value = require("./jsonTemplates/edgeData.json");
         },
         /**
@@ -73,22 +74,19 @@ export const edgeDataSlice = createSlice({
          * @param {any} state - The flow state
          * @param {any} action - the id of the node we removed
          */
-        removeFlow: (state, action) =>{
-            if(action.payload === "1000")
-                return
-            const { flow } = state.value;
-            delete flow[action.payload]
-            Object.keys(flow).map(id => {
-                const index = flow[id].indexOf(action.payload)
-                if(index !== -1 )
-                    flow[id] = flow[id].filter(x => x !== action.payload)
-            })
-            state.value["flow"] = flow
-        }
+        removeEdges: (state = this.state, action) => {
+            const id = action.payload;
+            const {flow} = state.json;
+            delete flow[id];
+            state.json["flow"] = Object.keys(flow).reduce((acc, key) => {
+                acc[key] = flow[key].filter(item => item !== id);
+                return acc;
+            }, {});
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateEdge, reset, load, removeFlow, addNode} = edgeDataSlice.actions;
+export const { updateFlowEdge, reset, load, removeEdges, addNode} = edgeDataSlice.actions;
 
 export default edgeDataSlice.reducer;

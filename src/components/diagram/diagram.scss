@@ -52,6 +52,18 @@
   display: inline;
   direction: rtl;
 }
+.customNode:focus{
+  border-width: 3px;
+}
 .NodeLabel{
   margin: 0 7px 7px 7px;
+}
+.col{
+  padding: 0;
+}
+.row{
+  margin:0;
+}
+.form-check-label{
+  pointer-events: none;
 }
