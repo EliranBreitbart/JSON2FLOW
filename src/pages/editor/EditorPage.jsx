@@ -6,7 +6,7 @@ import "./EditorPage.scss";
 import {useSelector} from "react-redux";
 
 const EditorPage = () => {
-  const key = useSelector((state) => state.nodes.load);
+  const key = useSelector((state) => state.nodes.load); //important!! for re-render!!
   return (
     <>
 

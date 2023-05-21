@@ -7,38 +7,49 @@ export const edgeDataSlice = createSlice({
     },
     reducers: {
         /**
+         * Adds a node ID to the flow
+         * @param {any} state - The flow state
+         * @param {any} action - the action
+         * @param {String} action.payload - the id of the node we removed
+         */
+        addNode: (state, action) =>{
+            const newNode = action.payload;
+            state.json["flow"] = {...state.json["flow"], [newNode]: []}
+        },
+        deleteNode: (state, action) =>{
+            const nodeToDelete = action.payload;
+            const {flow} = state.json;
+            delete flow[nodeToDelete];
+            state.json["flow"] = flow;
+        },
+        /**
          * Updates the flow Table
          * @param {string} fromID - The source node ID
          * @param {string} toID - The target node ID
-         * @param {int} action - The action. (1-add, 0-remove) connection.
+         * @param {int} logic - the action
          */
-        update: {
+        updateEdge: {
             reducer(state, action) {
-                const { flow } = state.value;
-                if(action.payload.fromID === "0") //default item in the delete state
-                    return;
-                if (flow[action.payload.fromID] === undefined) {
-                    state.value["flow"] = { ...flow, [action.payload.fromID]: [] };
-                    return;
+                const { flow } = state.json;
+                const {fromID, toID, logic} = action.payload;
+                if(logic === 0){ //add edge
+                    if(!flow[fromID].includes(toID))
+                        flow[fromID].push(toID);
                 }
-
-                const toIdIndex = flow[action.payload.fromID].indexOf(
-                    action.payload.toID
-                );
-
-                if (action.payload.action === 1 && toIdIndex === -1) {
-                    flow[action.payload.fromID].push(action.payload.toID);
-                } else if (action.payload.action === 0 && toIdIndex > -1) {
-                    flow[action.payload.fromID].splice(toIdIndex, 1);
+                if(logic === 1) { //remove edge - to check
+                    const index = flow[fromID].indexOf(toID);
+                    if (index !== -1)
+                        flow[fromID].splice(index, 1);
                 }
-                state.value["flow"] = flow;
+                state.json["flow"] = flow;
+
             },
-            prepare(fromID, toID, action) {
+            prepare(fromID, toID, logic) {
                 return {
                     payload: {
                         fromID,
                         toID,
-                        action,
+                        logic: logic,
                     },
                 };
             },
@@ -78,6 +89,6 @@ export const edgeDataSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { update, reset, load, removeFlow } = edgeDataSlice.actions;
+export const { updateEdge, reset, load, removeFlow, addNode} = edgeDataSlice.actions;
 
 export default edgeDataSlice.reducer;

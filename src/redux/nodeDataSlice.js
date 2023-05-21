@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 /*TODO:
-    * Store data for nodes.
-    *
+    * remove node functionality
  *  */
+
 export const nodeDataSlice = createSlice({
     name: "nodeDataSlice",
     initialState: {
         json: require("./jsonTemplates/nodeData.json"),
-        load: 1,
+        load: 1, //important!! for re-render of the flow!!!
     },
     reducers: {
         load: (state, action) => {
@@ -59,10 +59,21 @@ export const nodeDataSlice = createSlice({
             state.locations = { 1000: { x: 0, y: 0 } };
             state.nextId = 1001;
         },
+        /**
+         * Updates sentences (nodes)
+         * @param {Object} newNode - The source node ID
+         * @param {any} state - current state
+         */
+        addNode: (state, newNode) => {
+            const {sentences} = state.json;
+            newNode = newNode.payload;
+
+            state.json["sentences"] = {...sentences, [newNode["id_"]]: newNode};
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateField, reset, load, removeField} = nodeDataSlice.actions;
+export const { updateField, reset, load, removeField, addNode} = nodeDataSlice.actions;
 
 export default nodeDataSlice.reducer;

@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import {useDispatch} from "react-redux";
 import {updateField, removeField} from "../../redux/nodeDataSlice";
 
-const onConnect = (params) => console.log('handle onConnect', params);
 const deFocus = () =>{
     if (document.activeElement) {
         document.activeElement.blur();
@@ -30,7 +29,7 @@ function CustomNode(props) {
     };
     return (
       <>
-        <Handle type="source" position={Position.Bottom} onConnect={onConnect} />
+        <Handle type="source" position={Position.Bottom} />
          <Form>
               <Form.Switch tabIndex="-1"
               style={{marginInline:5 ,textAlign:"left"}}
