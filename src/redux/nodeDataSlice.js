@@ -1,30 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
-/*TODO:
-    * remove node functionality
- *  */
 
+/**
+ * Redux slice for managing node data.
+ */
 export const nodeDataSlice = createSlice({
     name: "nodeDataSlice",
     initialState: {
         json: require("./jsonTemplates/nodeData.json"),
-        load: 1, //important!! for re-render of the flow!!!
+        load: 1,
     },
     reducers: {
-        load: (state = this.state, action) => {
-            state.json["sentences"] = action.payload["sentences"];
-            state.load = (state.load + 1 % 2);
+        /**
+         * Updates the state with the provided data.
+         * @param {Object} state - The current state.
+         * @param {Object} action - The action object.
+         * @param {Object} action.payload.sentences - The payload containing the updated sentences.
+         */
+        load: (state, action) => {
+            state.json.sentences = action.payload.sentences;
+            state.load = (state.load + 1) % 2;
         },
         /**
-         * Updates sentences (nodes)
-         * @param {string} payload.id - The source node ID
-         * @param {string} payload.field - The field we want to change
-         * @param {string} payload.data - the data to put in the field
+         * Updates a specific field in a node.
+         * @param {Object} state - The current state.
+         * @param {Object} action - The action object.
+         * @param {Object} action.payload - The payload containing the update information.
+         * @param {string} action.payload.id - The ID of the node.
+         * @param {string} action.payload.field - The field to update.
+         * @param {string} action.payload.data - The data to put in the field.
          */
         updateField: {
-            reducer(state = this.state, action) {
-                const {id, field, data} = action.payload;
-                    state.json["sentences"][id][field] = data;
-
+            reducer(state, action) {
+                const { id, field, data } = action.payload;
+                state.json.sentences[id][field] = data;
             },
             prepare(id, field, data) {
                 return {
@@ -36,11 +44,17 @@ export const nodeDataSlice = createSlice({
                 };
             },
         },
+        /**
+         * Removes a field from a node.
+         * @param {Object} state - The current state.
+         * @param {Object} action - The action object.
+         * @param {string} action.payload.id - The ID of the node.
+         * @param {string} action.payload.field - The field to remove.
+         */
         removeField: {
-            reducer(state = this.state, action) {
-                const {id, field} = action.payload;
-                delete state.json["sentences"][id][field];
-
+            reducer(state, action) {
+                const { id, field } = action.payload;
+                delete state.json.sentences[id][field];
             },
             prepare(id, field) {
                 return {
@@ -52,39 +66,40 @@ export const nodeDataSlice = createSlice({
             },
         },
         /**
-         * Resets the nodes to default state
+         * Resets the node data to default state.
+         * @param {Object} state - The current state.
          */
-        reset: (state = this.state) => {
-            state.locations = { 1000: { x: 0, y: 0 } };
-            state.nextId = 1001;
+        reset: (state) => {
+            state.json = require("./jsonTemplates/nodeData.json");
         },
         /**
-         * Adds a node
-         * @param {Object} newNode - The node data
-         * @param {any} state - current state
-         */
-        addNode: (state = this.state, newNode) => {
-            const {sentences} = state.json;
-            newNode = newNode.payload;
-
-            state.json["sentences"] = {...sentences, [newNode["id_"]]: newNode};
-        },
-        /**
-         * Removes a node from the sentences object in the state.
-         * @param {Object} state - The current state object.
+         * Adds a new node to the node data.
+         * @param {Object} state - The current state.
          * @param {Object} action - The action object.
-         * @param {*} action.payload - The payload containing the ID of the node to be removed.
-         * @returns {void}
+         * @param {Object} action.payload - The payload containing the new node data.
          */
-        removeNode: (state = this.state, action) => {
-            const {sentences} = state.json;
-            delete sentences[action.payload];
-            state.json["sentences"] = sentences;
+        addNode: (state, action) => {
+            state.json.sentences[action.payload.id_] = action.payload;
+        },
+        /**
+         * Removes a node from the node data.
+         * @param {Object} state - The current state.
+         * @param {Object} action - The action object.
+         * @param {string} action.payload - The ID of the node to remove.
+         */
+        removeNode: (state, action) => {
+            delete state.json.sentences[action.payload];
         },
     },
 });
 
-// Action creators are generated for each case reducer function
-export const { updateField, reset, load, removeField, addNode, removeNode} = nodeDataSlice.actions;
+export const {
+    updateField,
+    reset,
+    load,
+    removeField,
+    addNode,
+    removeNode,
+} = nodeDataSlice.actions;
 
 export default nodeDataSlice.reducer;

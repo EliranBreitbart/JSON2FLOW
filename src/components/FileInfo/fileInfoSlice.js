@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * Slice for managing file information in Redux store.
+ */
 export const fileInfoSlice = createSlice({
   name: "fileInfo",
   initialState: {
@@ -7,9 +10,11 @@ export const fileInfoSlice = createSlice({
   },
   reducers: {
     /**
-     * Updates the flow Table
-     * @param {string} field - The field in which we want to update the data
-     * @param {string} data - the Data the load to the field
+     * Updates the flow table.
+     * @param {object} state - The current state.
+     * @param {object} action - The Redux action.
+     * @param {string} action.payload.field - The field in which to update the data.
+     * @param {string} action.payload.data - The data to load into the field.
      */
     update: {
       reducer(state, action) {
@@ -25,18 +30,21 @@ export const fileInfoSlice = createSlice({
       },
     },
     /**
-     * Resets the file info to default state
+     * Resets the file info to the default state.
+     * @param {object} state - The current state.
      */
     reset: (state) => {
       state.value = require("./template.json");
     },
     /**
-     * Loads file info to from JSON file
-     * @param {JSON} data - JSON file
+     * Loads file info from a JSON file.
+     * @param {object} state - The current state.
+     * @param {object} action - The Redux action.
+     * @param {object} action.payload - The JSON file.
      */
     load: (state, action) => {
       Object.keys(state.value).map(
-        (field) => (state.value[field] = action.payload[field])
+          (field) => (state.value[field] = action.payload[field])
       );
     },
   },

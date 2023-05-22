@@ -11,8 +11,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { load as loadNodeData} from "../../redux/nodeDataSlice";
 import { load as loadFlow } from "../diagram/flowSlice";
 import { load as loadSentences } from "../Node/nodeSlice";
-import { updateLoaded } from "../Node/nodeSlice";
-import {wait} from "@testing-library/user-event/dist/utils";
 
 const Header = () => {
   /* element functions */
@@ -49,8 +47,8 @@ const Header = () => {
 
   /* get states and export */
   const data = useSelector((state) => state.fileInfo.value);
-  const flow = useSelector((state) => state.flow.value);
-  const sentences = useSelector((state) => state.sentences.value);
+  const flow = useSelector((state) => state.edges.json);
+  const sentences = useSelector((state) => state.nodes.json);
 
   const exportData = () => {
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
