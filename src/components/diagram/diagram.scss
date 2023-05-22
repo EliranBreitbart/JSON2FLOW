@@ -44,16 +44,29 @@
   border-radius: 3px;
 }
 
-.customNode{
+.customNodeSpeaker{
   min-height: 20px;
   min-width: 100px;
   max-width: 200px;
   text-align: center;
   display: inline;
   direction: rtl;
+  background-color: #B5FFC9;
 }
-.customNode:focus{
-  border-width: 3px;
+.customNodeBot{
+  min-height: 20px;
+  min-width: 100px;
+  max-width: 200px;
+  text-align: center;
+  display: inline;
+  direction: rtl;
+  background-color: #FFE6E6;
+}
+.customNodeBot:focus {
+  border-width: 2px;
+}
+.customNodeSpeaker:focus {
+  border-width: 2px;
 }
 .NodeLabel{
   margin: 0 7px 7px 7px;

@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Header />
-      <Container>
+      <Container className="custom-container">
         <EditorPage />
       </Container>
     </>

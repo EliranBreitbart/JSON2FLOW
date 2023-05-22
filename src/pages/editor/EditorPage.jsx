@@ -9,8 +9,7 @@ const EditorPage = () => {
   const key = useSelector((state) => state.nodes.load); //important!! for re-render!!
   return (
     <>
-
-      <div className={"container"}>
+      <div className={"editor-container"}>
         <Diagram2 key={key.toString()}/>
         <JsonView />
       </div>

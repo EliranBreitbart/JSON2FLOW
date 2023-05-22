@@ -29,8 +29,9 @@ function CustomNode(props) {
 
         dispatch(updateField(id, "speaker", bot ? "bot" : "speaker"));
         deFocus();
-
+        props.data.updateClass(id, bot? "customNodeBot" : "customNodeSpeaker");
     },[bot])
+
     return (
       <>
         <Handle type="source" position={Position.Bottom} />
@@ -44,8 +45,6 @@ function CustomNode(props) {
                                    defaultChecked={bot}
                                    onChange={() => setBot(!bot)}
                  /></Col>
-
-
              </Row>
           {!bot && (
               <Row  style={{}}>
@@ -59,7 +58,7 @@ function CustomNode(props) {
                   </Col></Row>
           )}
           </Form>
-          <div className={"NodeLabel"}>
+          <div className={"NodeLabel"} >
               {props.data.label}
           </div>
         <Handle type="target" position={Position.Top} />

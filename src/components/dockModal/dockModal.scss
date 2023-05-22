@@ -5,14 +5,15 @@
   margin-left: 10ch;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  min-width: 60vh;
-  max-width: 80vh;
+  min-width: 600px
+
 }
 .modal-header{
   height: 30px;
   background-color: #f2f2f2;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+
 }
 .modal-body{
   height: auto;
@@ -29,27 +30,15 @@
   width: 16px;
   cursor: pointer;
 }
-.table{
-  min-height: 0;
-  margin-bottom: 0;
-}
 .modal-header-title{
   margin-right: 20px;
   font-size: 14px;
   margin-top:5px;
   font-weight: bold;
-  font-family: "Arial";
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  direction: rtl;
 }
-.sm-input{
-  height: 23px;
-  font-size: 15px;
-  width: 100%;
-
-}
-.field-td{
-  white-space: nowrap;
-  width: 1%;
-}
-.input-td{
+.form-label {
+  margin-right: 10px;
 }

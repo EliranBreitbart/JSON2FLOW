@@ -11,6 +11,7 @@ import dagre from "dagre";
 import {wait} from "@testing-library/user-event/dist/utils";
 import {addNode, removeNode} from "../../redux/nodeDataSlice";
 import {addNode as addNodeToFlow, removeEdges, updateFlowEdge} from "../../redux/edgeDataSlice";
+import DockModal from "../dockModal";
 /*
  * TODO:
  *  Add Modal - make sure to make it re-render when clicking.
@@ -34,12 +35,12 @@ function findMissingNumber(ids) {
 
     return expectedNumber.toString();
 }
-const createNode = (sentence) => ({
+const createNode = (sentence, updateClass) => ({
     id: sentence["id_"],
     type: "customNode",
-    data: { label: sentence["hebrew"], speaker: sentence["speaker"], sentence: sentence },
+    data: { label: sentence["hebrew"], speaker: sentence["speaker"], sentence: sentence, updateClass: updateClass },
     position: { x: 0, y: 0 },
-    className: "customNode",
+    className: sentence["speaker"] === "bot" ? "customNodeBot" : "customNodeSpeaker",
 })
 
 const createEdge = (source, target) => ({
@@ -63,7 +64,37 @@ const Flow = () => {
     const {sentences} = useSelector((state) => state.nodes.json);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
 
-    const add_node = () => {
+    const updateClass = (id, newClass) => {
+        setNodes((prevNodes) => {
+            return prevNodes.map((node) => {
+                if (node.id === id) {
+                    return {
+                        ...node,
+                        className: newClass,
+                    };
+                }
+                return node;
+            });
+        });
+    };
+
+    const updateLabel = (id, newLabel) => {
+        setNodes((prevNodes) => {
+            return prevNodes.map((node) => {
+                if (node.id === id) {
+                    return {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            label: newLabel,
+                        },
+                    };
+                }
+                return node;
+            });
+        });
+    };
+        const add_node = () => {
         const newNode = {
             id_: findMissingNumber(Object.keys(sentences)),
             arabic: "",
@@ -76,7 +107,7 @@ const Flow = () => {
         };
         dispatch(addNode(newNode));
         dispatch(addNodeToFlow(newNode["id_"]));
-        setNodes(nds => nds.concat(createNode(newNode)));
+        setNodes(nds => nds.concat(createNode(newNode, updateClass)));
     };
     //endregion
     //region /* Edges */
@@ -94,7 +125,7 @@ const Flow = () => {
     useEffect(() => {
         Object.values(sentences).map((sentence) => { // creating nodes
             setNodes(existingNodes =>
-                existingNodes.concat(createNode(sentence)))
+                existingNodes.concat(createNode(sentence, updateClass)))
         });
         for (const [source, value] of Object.entries(flow)) {  // creating edges
             value.forEach((target) => {
@@ -206,7 +237,7 @@ const Flow = () => {
                     </Controls>
 
                 </ReactFlow>
-                {/* <DockModal node={sentences[clickedElement.id]}/> */}
+                <DockModal node={clickedElement !== null ? sentences[clickedElement.id] : undefined} updateLabel={updateLabel}/>
             </div>
     );
 };
