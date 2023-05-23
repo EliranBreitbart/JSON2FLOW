@@ -25,7 +25,7 @@ const DockModal = ({node, updateLabel}) => {
                     <Form style={{ marginTop: 5 }}>
                     {node !== undefined &&
                     Object.entries(node).map(([key, value]) => {
-                        if (key === 'speaker' || key === 'id_') {
+                        if (key === 'speaker' || key === 'id_' || key === 'isCorrectAnswer') {
                             return null; // Skip rendering the speaker and id_ fields
                         }
                         return (

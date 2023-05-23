@@ -115,6 +115,9 @@ const Header = () => {
                 </OverlayTrigger>
               </Nav>
             </Navbar.Collapse>
+            <div style={{ position: "absolute", bottom: "5px", right: "5px", fontSize: "12px", color: "lightgray" }}>
+              ver2, by Eliran Breitbard
+            </div>
           </Container>
         </Navbar>
         {/* hidden input box for files */}
