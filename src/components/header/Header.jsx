@@ -13,7 +13,7 @@ import { load as loadFlow } from "../diagram/flowSlice";
 import { load as loadSentences } from "../Node/nodeSlice";
 import Example from "./Example.json";
 
-const Header = () => {
+const Header = ({updateStepsEnabled}) => {
   /* element functions */
   const hiddenFileInput = React.useRef(null);
   const handleClick = () => {
@@ -85,6 +85,7 @@ const Header = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
+                <div style={{display:"flex"}} className={"load-export"}>
                 <OverlayTrigger
                     id="load-tooltip"
                     placement="bottom"
@@ -104,13 +105,23 @@ const Header = () => {
                     Export
                   </Nav.Link>
                 </OverlayTrigger>
+              </div>
                 <OverlayTrigger
                     placement="bottom"
                     delay={{ show: 250, hide: 400 }}
                     overlay={renderTooltip({ msg: "Load example File" })}
                 >
-                  <Nav.Link href="#example" onClick={handleLoadExampleFile}>
+                  <Nav.Link className={"example"} href="#example" onClick={handleLoadExampleFile}>
                     Example
+                  </Nav.Link>
+                </OverlayTrigger>
+                <OverlayTrigger
+                    placement="bottom"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={renderTooltip({ msg: "Take a tour through the site" })}
+                >
+                  <Nav.Link onClick={updateStepsEnabled} href="#tour" >
+                    Tour
                   </Nav.Link>
                 </OverlayTrigger>
               </Nav>

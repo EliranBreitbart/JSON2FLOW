@@ -35,6 +35,8 @@ const DockModal = ({node, updateLabel}) => {
                                 </Form.Label>
                                 <Col size="sm" style={{ marginRight: 5 }}>
                                     <Form.Control
+                                        dir={key === "voiceRecPath" ? "ltr" : "rtl"}
+                                        autoComplete="off"
                                         size="sm"
                                         type="text"
                                         placeholder={key}

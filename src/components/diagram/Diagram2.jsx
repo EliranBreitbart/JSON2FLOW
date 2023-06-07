@@ -14,10 +14,13 @@ import {addNode as addNodeToFlow, removeEdges, updateFlowEdge} from "../../redux
 import DockModal from "../dockModal";
 /*
  * TODO:
- *  Add Modal - make sure to make it re-render when clicking.
- *      * hebrew should trigger update to the nodes title.
  *  Add logic to adding new edges (or add logic and display issues).
- *
+ *  word-break
+ *  voice
+ *  backend
+ *  react context menu
+ *  lock dock modal
+ *  float label for modal?
  *  */
 
 function findMissingNumber(ids) {
@@ -219,6 +222,7 @@ const Flow = () => {
                 >
                     <Background />
                     <Controls>
+                        <div   className={"buttons_"}>
                         <ControlButton
                             onClick={() => {}}
                             title="To delete selected, or click 'delete'"
@@ -234,6 +238,7 @@ const Flow = () => {
                             className={"Tree-Button"}
                             onClick={() => Tree()}
                             title="Rearrange Nodes to Tree"/>
+                        </div>
                     </Controls>
 
                 </ReactFlow>

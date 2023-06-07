@@ -1,0 +1,11 @@
+.introjs-tooltip {
+    max-width: None; /* Adjust this value as needed */
+    min-width: 350px;
+}
+.introjs-tooltiptext {
+    width: 100%;
+    padding-bottom: 5px;
+}
+ul{
+    margin: 0;
+}

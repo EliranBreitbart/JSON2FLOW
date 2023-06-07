@@ -23,9 +23,13 @@ function CustomNode(props) {
     },[checked])
 
     useEffect(() => {
-        bot ? //remove or add back isCorrectAnswer Field depending on what type of speaker we are
-            dispatch(removeField(id, "isCorrectAnswer")) :
+        if(bot){ //remove or add back isCorrectAnswer Field depending on what type of speaker we are
+            dispatch(removeField(id, "isCorrectAnswer"))
+            dispatch(removeField(id, "voiceRecPath"))
+        } else {
             dispatch(updateField(id, "isCorrectAnswer", checked));
+            dispatch(updateField(id, "voiceRecPath", ""));
+        }
 
         dispatch(updateField(id, "speaker", bot ? "bot" : "speaker"));
         deFocus();
@@ -41,7 +45,7 @@ function CustomNode(props) {
               style={{marginInlineEnd:5 ,textAlign:"left"}}
                                    type="switch"
                                    id={`isBot-switch`}
-                                   label={"isBot"}
+                                   label={ bot? "Bot" : "Speaker"}
                                    defaultChecked={bot}
                                    onChange={() => setBot(!bot)}
                  /></Col>
@@ -52,7 +56,7 @@ function CustomNode(props) {
                       style={{marginInline:5, marginTop:-12,textAlign:"left", direction:"ltr"}}
                       type="switch"
                       id={`isCorrect-switch`}
-                      label={"isAnswer?"}
+                      label={checked? "Correct" : "Wrong"}
                       defaultChecked={checked}
                       onChange={() => setChecked(!checked)}/>
                   </Col></Row>
