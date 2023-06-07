@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/JSON2FLOW/static/css/main.e95eb16b.css",
-    "main.js": "/JSON2FLOW/static/js/main.3ac22bff.js",
+    "main.css": "/JSON2FLOW/static/css/main.e1c992e3.css",
+    "main.js": "/JSON2FLOW/static/js/main.ff84ed38.js",
     "static/js/787.8545d443.chunk.js": "/JSON2FLOW/static/js/787.8545d443.chunk.js",
     "static/media/PLUS.svg": "/JSON2FLOW/static/media/PLUS.96de7dffab608f346af3.svg",
     "static/media/Tree.svg": "/JSON2FLOW/static/media/Tree.8b928122e8ac215cbfa3.svg",
     "index.html": "/JSON2FLOW/index.html",
-    "main.e95eb16b.css.map": "/JSON2FLOW/static/css/main.e95eb16b.css.map",
-    "main.3ac22bff.js.map": "/JSON2FLOW/static/js/main.3ac22bff.js.map",
+    "main.e1c992e3.css.map": "/JSON2FLOW/static/css/main.e1c992e3.css.map",
+    "main.ff84ed38.js.map": "/JSON2FLOW/static/js/main.ff84ed38.js.map",
     "787.8545d443.chunk.js.map": "/JSON2FLOW/static/js/787.8545d443.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e95eb16b.css",
-    "static/js/main.3ac22bff.js"
+    "static/css/main.e1c992e3.css",
+    "static/js/main.ff84ed38.js"
   ]
 }
