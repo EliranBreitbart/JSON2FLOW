@@ -25,10 +25,14 @@ function CustomNode(props) {
     useEffect(() => {
         if(bot){ //remove or add back isCorrectAnswer Field depending on what type of speaker we are
             dispatch(removeField(id, "isCorrectAnswer"))
-            dispatch(removeField(id, "voiceRecPath"))
+            dispatch(updateField(id, "voiceRecPath", ""));
+            dispatch(updateField(id, "record", ""));
+
         } else {
             dispatch(updateField(id, "isCorrectAnswer", checked));
-            dispatch(updateField(id, "voiceRecPath", ""));
+            dispatch(removeField(id, "voiceRecPath"))
+            dispatch(removeField(id, "record"))
+
         }
 
         dispatch(updateField(id, "speaker", bot ? "bot" : "speaker"));
