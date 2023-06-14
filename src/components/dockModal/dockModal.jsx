@@ -3,23 +3,26 @@ import "./dockModal.scss";
 import {useDispatch} from "react-redux";
 import {Col, Form, InputGroup, Row} from "react-bootstrap";
 import {updateField} from "../../redux/nodeDataSlice";
-import Recorder from "../recorder";
+import Recorder from "../Media/Recorder";
+import Media from "../Media/Media";
 
 const DockModal = ({node, updateLabel}) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(true);
-    const [showOverlay, setShowOverlay] = useState(false);
+    const [showRecorderOverlay, setShowRecorderOverlay] = useState(false);
+    const [showMediaOverlay, setShowMediaOverlay] = useState(false);
 
     useEffect(() => {
         setShow(node !== undefined);
-        setShowOverlay(show);
+        setShowRecorderOverlay(show);
+        setShowMediaOverlay(show);
     }, [node]);
-
 
     const splitText = (text) => text.split(",").map((tag) => tag.trim()).filter((tag) => tag !== "");
 
-    const handleOverlayButtonClick = () => {
-        setShowOverlay(!showOverlay);
+    const handleOverlayButtonClick = (event, setFunction) => {
+        event.preventDefault();
+        setFunction((prevValue) => !prevValue);
     };
     return (
         <div className={"modal-container"}>
@@ -49,12 +52,12 @@ const DockModal = ({node, updateLabel}) => {
                                         <Col size="sm" style={{marginRight: 5}}>
                                             <InputGroup size="sm">
                                                 <Form.Control
-                                                    dir={key === "voiceRecPath" ? "ltr" : "rtl"}
+                                                    dir={["mediaPath","voiceRecPath"].includes(key) ? "ltr" : "rtl"}
                                                     autoComplete="off"
                                                     type="text"
                                                     placeholder={key}
                                                     defaultValue={value}
-                                                    disabled={key === "voiceRecPath"}
+                                                    disabled={["mediaPath","voiceRecPath"].includes(key)}
                                                     onChange={(e) => {
                                                         dispatch(
                                                             updateField(
@@ -68,7 +71,12 @@ const DockModal = ({node, updateLabel}) => {
                                                         }
                                                     }}/>
                                                 {key === "voiceRecPath" &&
-                                                    <Recorder show={showOverlay} onClick={handleOverlayButtonClick}/>
+                                                    <Recorder show={showRecorderOverlay}   onClick={(event) => handleOverlayButtonClick(event, setShowRecorderOverlay)}
+                                                    />
+                                                }
+                                                {key === "mediaPath" &&
+                                                    <Media show={showMediaOverlay}   onClick={(event) => handleOverlayButtonClick(event, setShowMediaOverlay)}
+                                                    />
                                                 }
                                             </InputGroup>
                                         </Col>

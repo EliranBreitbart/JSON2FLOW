@@ -26,9 +26,12 @@ function CustomNode(props) {
         if(bot){ //remove or add back isCorrectAnswer Field depending on what type of speaker we are
             dispatch(removeField(id, "isCorrectAnswer"))
             dispatch(updateField(id, "voiceRecPath", ""));
+            dispatch(updateField(id, "mediaPath", ""));
         } else {
             dispatch(updateField(id, "isCorrectAnswer", checked));
             dispatch(removeField(id, "voiceRecPath"))
+            dispatch(removeField(id, "mediaPath"))
+
 
         }
 

@@ -8,9 +8,7 @@ const RecorderContent = ({mediaRecorder, audioURL, isRecording, startRecording, 
             {!mediaRecorder && <p>Your browser does not support media devices.</p>}
 
             {!audioURL && !isRecording && (
-                <d>
                     <Button size={"sm"} onClick={startRecording}>Start Recording</Button>
-                </d>
             )}
 
             {isRecording && (
@@ -102,7 +100,7 @@ const Recorder = ({onClick, show}) => {
             key={"top"}
             placement={"top"}
             overlay={
-                <Popover id={`popover-positioned-top`}>
+                <Popover id={`Record-popover`}>
                     <Popover.Header as="h3">{`Audio Recording`}</Popover.Header>
                     <Popover.Body>
                         <RecorderContent
