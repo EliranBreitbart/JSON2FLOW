@@ -6,5 +6,7 @@
   "level": 0,
   "category": "",
   "createdBy": "",
-  "start": "1000"
+  "start": "1000",
+  "draft": true,
+  "enable": false
 }

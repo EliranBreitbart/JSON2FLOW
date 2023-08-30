@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Table from "react-bootstrap/Table";
 import { useSelector, useDispatch } from "react-redux";
 import { update } from "./fileInfoSlice";
+import Form from "react-bootstrap/Form";
 
 /* //TODO:
  *       When file is loaded populate form fields
@@ -18,13 +19,6 @@ const FileInfo = () => {
   const data = useSelector((state) => state.fileInfo.value);
   const dispatch = useDispatch();
 
-  // function onFieldChange(field, value) {
-  //   props.setJson((oldJson) => {
-  //     const newJson = { ...oldJson };
-  //     newJson[field] = value;
-  //     return newJson;
-  //   });
-  // }
 
   return (
     <>
@@ -41,17 +35,26 @@ const FileInfo = () => {
               <tbody>
                 {/* Dynamically creates the fields from the Json file and onChange functions */}
                 {Object.keys(data).map((field, index) => {
-                  if (index < 8)
+                  if (index < 10)
                     return (
                       <tr key={index}>
                         <td>{`${field}:`}</td>
                         <td>
-                          <input
-                            value={data[field]}
-                            onChange={(e) =>
-                              dispatch(update(field, e.target.value))
-                            }
-                          />
+                          { (field === "enable" || field === "draft") &&
+                              <Form.Switch tabIndex="-1"
+                                           style={{marginInlineEnd:5 ,textAlign:"left"}}
+                                           type="switch"
+                                           id={`isBot-switch`}
+                                           defaultChecked={data[field]}
+                                           onChange={() =>
+                                               dispatch(update(field, field === "enable" ? !data[field] : !data[field]))}
+                              /> ||
+                              <input
+                                  value={data[field]}
+                                  onChange={(e) =>
+                                      dispatch(update(field, e.target.value))
+                                  }
+                              />}
                         </td>
                       </tr>
                     );
